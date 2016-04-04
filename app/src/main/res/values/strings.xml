@@ -1,0 +1,50 @@
+<resources>
+    <string name="app_name">学生考勤系统</string>
+
+    <string name="user_name">学号</string>
+    <string name="password">密码</string>
+    <string name="new_password">新密码</string>
+    <string name="new_phone">新电话号码</string>
+
+    <string name="teacher">教师</string>
+    <string name="student">学生</string>
+
+    <string name="login">登录</string>
+
+    
+    <string name="syllabus">课程表</string>
+    <string name="course">课程</string>
+    <string name="attend_teacher">考勤</string>
+    <string name="attend_student">签到</string>
+    <string name="info_teacher">抽问</string>
+    <string name="info_student">个人信息</string>
+    
+    <string name="course_name">课程： </string>
+    <string name="course_address">教室： </string>
+    <string name="course_time">时间： </string>
+    <string name="course_class_name">班级： </string>
+    <string name="course_teacher_name_cls">班主任：</string>
+    <string name="course_teacher_name">教师：</string>
+    <string name="course_phone">电话： </string>
+    
+    <string name="attend_student_status">签到</string>
+    
+    <string name="status_normal">正常</string>
+    <string name="status_truant">旷课</string>
+    <string name="status_leave">请假</string>
+    <string name="status_late">迟到</string>
+    <string name="status_leave_early">早退</string>
+    
+    <string name="attend_teacher_send">提交考勤信息</string>
+
+    <string name="ask_question">随机抽问</string>
+    <string name="persional_info_alter">信息修改</string>
+    
+    <string name="student_name">姓名： </string>
+    <string name="student_ID">学号： </string>
+    <string name="student_sex">性别： </string>
+    <string name="student_phone">电话： </string>
+    <string name="student_class">班级： </string>
+    <string name="student_password">密码： </string>
+    
+</resources>
