@@ -1,5 +1,7 @@
 package qzu.com.attendance.ui.activity;
 
+import android.bluetooth.BluetoothDevice;
+import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
@@ -18,6 +20,8 @@ import qzu.com.attendance.ui.fragment.CourseFragment;
 import qzu.com.attendance.ui.fragment.AskQuestionFragment;
 import qzu.com.attendance.ui.fragment.PersionalInfoFragment;
 import qzu.com.attendance.ui.fragment.SyllabusFragment;
+import qzu.com.attendance.utils.Constants;
+import qzu.com.attendance.utils.L;
 
 public class DetailActivity extends BaseActivity {
 
@@ -30,6 +34,9 @@ public class DetailActivity extends BaseActivity {
     private PagerAdapter mPagerAdapter;
 
     private List<PagerAdapter.FragmentModel> mModels;
+
+    AttendStudentFragment studentFragment;
+    AttendTeacherFragment teacherFragment;
 
     @Override
     protected int getLayoutId() {
@@ -50,19 +57,21 @@ public class DetailActivity extends BaseActivity {
         String course = getResouseString(R.string.course);
         String attend = "";
         String info = "";
+        studentFragment = new AttendStudentFragment();
+        teacherFragment = new AttendTeacherFragment();
         
-        BaseFragment attendFragemnt = new AttendStudentFragment();
+        BaseFragment attendFragemnt = null;
         BaseFragment infoFragemnt = new AskQuestionFragment();
         
         if(AApplication.USER_TYPE == AApplication.TYPE_TEACHER) {
             attend = getResouseString(R.string.attend_teacher);
             info = getResouseString(R.string.info_teacher);
-            attendFragemnt = new AttendTeacherFragment();
+            attendFragemnt = teacherFragment;
             infoFragemnt = new AskQuestionFragment();
         }else if(AApplication.USER_TYPE == AApplication.TYPE_STUDENT) {
             attend = getResouseString(R.string.attend_student);
             info = getResouseString(R.string.info_student);
-            attendFragemnt = new AttendStudentFragment();
+            attendFragemnt = studentFragment;
             infoFragemnt = new PersionalInfoFragment();
         }
 
@@ -73,10 +82,11 @@ public class DetailActivity extends BaseActivity {
             mModels.add(new PagerAdapter.FragmentModel(attend, attendFragemnt));
             mModels.add(new PagerAdapter.FragmentModel(info, infoFragemnt));
         }
+        initViewPager();
     }
 
     private void initViewPager() {
-        mPagerAdapter = new PagerAdapter(getFragmentManager(), mModels);
+        mPagerAdapter = new PagerAdapter(getSupportFragmentManager(), mModels);
         mViewPager.setAdapter(mPagerAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
     }
@@ -84,6 +94,14 @@ public class DetailActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        initViewPager();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        for(PagerAdapter.FragmentModel model : mModels) {
+            model.getFragment().onActivityResult(requestCode, resultCode, data);
+        }
     }
 }

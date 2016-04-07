@@ -3,25 +3,46 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.fragment.AttendStudentFragment">
-    
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/attend_teacher_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/attend_teacher_send"/>
-    
-    <Button
-        android:id="@+id/attend_teacher_send"
+        android:layout_above="@+id/attend_teacher_bottom" />
+
+    <LinearLayout
+        android:id="@+id/attend_teacher_bottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="8dp"
-        android:layout_marginTop="8dp"
-        android:background="@color/colorPrimary"
-        android:textSize="20sp"
-        android:textColor="@color/white"
+        android:layout_marginBottom="12dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:text="@string/attend_teacher_send"/>
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/attend_teacher_open_bluetooth"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:text="@string/attend_teacher_open_bluetooth"
+            android:textColor="@color/white"
+            android:layout_margin="4dp"
+            android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/attend_teacher_send"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:text="@string/attend_teacher_send"
+            android:textColor="@color/white"
+            android:layout_margin="4dp"
+            android:textSize="20sp" />
+
+    </LinearLayout>
 
 </RelativeLayout>

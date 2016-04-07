@@ -1,16 +1,19 @@
 package qzu.com.attendance.ui.adapter;
 
 
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.support.v13.app.FragmentStatePagerAdapter;
+
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.view.View;
+import android.view.ViewGroup;
 
 import java.util.List;
 
 import qzu.com.attendance.ui.base.BaseFragment;
 
 /**
- * Created by ZHONG WEI  HUA on 2016/3/31.
+ * 主界面适配器
  */
 public class PagerAdapter extends FragmentStatePagerAdapter {
 

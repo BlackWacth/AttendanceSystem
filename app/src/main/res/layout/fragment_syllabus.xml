@@ -4,5 +4,18 @@
     android:layout_height="match_parent"
     tools:context="qzu.com.attendance.ui.fragment.SyllabusFragment">
 
+    <GridView
+        android:id="@+id/syllabus_grid_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:listSelector="@android:color/transparent"
+        android:numColumns="6"
+        android:scrollbars="none"
+        android:visibility="gone" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/syllabus_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 </FrameLayout>

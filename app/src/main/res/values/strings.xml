@@ -36,6 +36,7 @@
     <string name="status_leave_early">早退</string>
     
     <string name="attend_teacher_send">提交考勤信息</string>
+    <string name="attend_teacher_open_bluetooth">开始考勤</string>
 
     <string name="ask_question">随机抽问</string>
     <string name="persional_info_alter">信息修改</string>

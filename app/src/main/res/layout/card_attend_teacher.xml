@@ -3,10 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="148dp"
+    android:layout_marginBottom="8dp"
     android:layout_marginLeft="16dp"
     android:layout_marginRight="16dp"
     android:layout_marginTop="8dp"
-    android:layout_marginBottom="8dp"
     app:cardCornerRadius="8dp"
     app:cardElevation="10dp"
     app:cardMaxElevation="8dp"
@@ -16,6 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="100dp"
@@ -115,61 +116,68 @@
                         android:text="153754134646" />
 
                 </LinearLayout>
-                
+
             </LinearLayout>
 
         </LinearLayout>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/septal_line" />
 
-        <RadioGroup
-            android:id="@+id/card_radio_group"
+        <HorizontalScrollView
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:gravity="center_vertical"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:orientation="horizontal">
-            
-            <RadioButton
-                android:id="@+id/card_radio_normal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/status_normal"
-                android:checked="true"/>
+            android:scrollbars="none">
 
-            <RadioButton
-                android:id="@+id/card_radio_truant"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:text="@string/status_truant"/>
+            <RadioGroup
+                android:id="@+id/card_radio_group"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp">
 
-            <RadioButton
-                android:id="@+id/card_radio_leave"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:text="@string/status_leave"/>
+                <RadioButton
+                    android:id="@+id/card_radio_normal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="@string/status_normal" />
 
-            <RadioButton
-                android:id="@+id/card_radio_late"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:text="@string/status_late"/>
+                <RadioButton
+                    android:id="@+id/card_radio_truant"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:text="@string/status_truant" />
 
-            <RadioButton
-                android:id="@+id/card_radio_leave_early"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:text="@string/status_leave_early"/>
-            
-        </RadioGroup>
-        
+                <RadioButton
+                    android:id="@+id/card_radio_leave"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:text="@string/status_leave" />
+
+                <RadioButton
+                    android:id="@+id/card_radio_late"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:text="@string/status_late" />
+
+                <RadioButton
+                    android:id="@+id/card_radio_leave_early"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:text="@string/status_leave_early" />
+
+            </RadioGroup>
+        </HorizontalScrollView>
+
     </LinearLayout>
-    
+
 </android.support.v7.widget.CardView>
