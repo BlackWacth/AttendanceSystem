@@ -20,4 +20,7 @@ public class Constants {
     public static final String EXTRA_DEVICE_NAME = "EXTRA_DEVICE_NAME";
     public static final String EXTRA_TOAST = "EXTRA_TOAST";
     public static final String EXTRA_BLUETOOTH_STATE = "EXTRA_BLUETOOTH_STATE";
+
+    public static final int NETWORK_STATUS_SUCCESS = 1;
+    public static final int NETWORK_STATUS_ERROR = 1;
 }

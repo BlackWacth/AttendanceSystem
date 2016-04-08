@@ -63,5 +63,4 @@ public class HttpMethod {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(subscriber);
     }
-
 }

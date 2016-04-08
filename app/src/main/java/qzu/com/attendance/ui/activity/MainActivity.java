@@ -107,57 +107,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
             }
         }, AApplication.TYPE_TEACHER, 1010001, "123456");
 
+
     }
 
-    private void login(){
-        Retrofit retrofit = mHttpMethod.getmRetrofit();
-        LoginApi login = retrofit.create(LoginApi.class);
-        Call<ResponseBody> call = login.loginBody(AApplication.TYPE_TEACHER, 1010001, "123456");
-        call.enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                try {
-                    String body = response.body().string();
-                    L.i("原始json 》》》" + body);
-                    String temp = body;
-                    int start = temp.indexOf("{");
-                    L.i("start = " + start);
-                    int end = temp.lastIndexOf("}");
-                    L.i("end = " + end);
-                    String newTemp = temp.substring(start, end+1);
-                    L.i("temp +++>" + newTemp);
-//                    body = "{" + newTemp + "}";
-                    body = newTemp;
-                    L.i("new body ===>" + body);
-                    Gson gson = new Gson();
-                    Teacher teacher = gson.fromJson(body, Teacher.class);
-                    L.i("解析后 ---》" + teacher.toString());
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                L.i(t.getMessage());
-            }
-        });
-
-        switch (mRadioGroup.getCheckedRadioButtonId()) {
-            case R.id.type_teacher:
-                AApplication.USER_TYPE = AApplication.TYPE_TEACHER;
-                break;
-
-            case R.id.type_student:
-                AApplication.USER_TYPE = AApplication.TYPE_STUDENT;
-                break;
-
-            default:
-                AApplication.USER_TYPE = AApplication.TYPE_STUDENT;
-                break;
-        }
-//        mStartActivity(DetailActivity.class);
+    private void login(int userID, String pwd){
 
     }
 
@@ -165,7 +118,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.login:
-                login();
+                getData();
                 break;
         }
     }
