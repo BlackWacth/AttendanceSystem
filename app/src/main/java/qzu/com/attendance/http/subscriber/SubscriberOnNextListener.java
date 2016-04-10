@@ -1,10 +1,11 @@
 package qzu.com.attendance.http.subscriber;
 
 /**
- * Created by ZHONG WEI  HUA on 2016/3/23.
+ * 状态码和错误码统一处理
  */
 public interface SubscriberOnNextListener<T> {
 
-    void  onNext(T t);
-
+    void success(T t);
+    
+    void error(int code);
 }

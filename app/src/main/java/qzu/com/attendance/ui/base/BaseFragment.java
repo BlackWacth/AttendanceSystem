@@ -9,13 +9,28 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 public abstract class BaseFragment extends Fragment {
-
+    
+    private View contentView;
+    /** */
+    protected boolean isVisible;
+    /**标志位，标志已经初始化完成 */
+    protected boolean isPrepared;
+    /** 是否已被加载过一次，第二次就不再去请求数据了 */
+    protected boolean isHasLoadedOnce;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(getLayoutId(), container, false);
-        init(view);
-        return view;
+        if(contentView == null) {
+            contentView = inflater.inflate(getLayoutId(), container, false);
+            isPrepared = true;
+            init(contentView);
+            load();
+        }
+        ViewGroup parent = (ViewGroup) contentView.getParent();
+        if(parent != null) {
+            parent.removeView(contentView);
+        }
+        return contentView;
     }
 
     @Override
@@ -41,4 +56,36 @@ public abstract class BaseFragment extends Fragment {
     public String getResouseString(int id) {
         return getActivity().getResources().getString(id);
     }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if(getUserVisibleHint()) {
+            isVisible = true;
+            onVisible();
+        }else {
+            isVisible = false;
+            onInvisible();
+        }
+    }
+
+    protected void onInvisible(){
+        
+    }
+
+    protected void onVisible(){
+        load();
+    }
+
+    protected  void load(){
+        if(!isPrepared || !isVisible || isHasLoadedOnce){
+            return;
+        }
+        lazyLoad();
+    }
+
+    /**
+     * 延迟加载
+     */
+    protected abstract void lazyLoad();
 }

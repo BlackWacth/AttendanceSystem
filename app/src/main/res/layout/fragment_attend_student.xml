@@ -6,6 +6,7 @@
     tools:context=".ui.fragment.AttendStudentFragment">
 
     <LinearLayout
+        android:id="@+id/attend_student_content_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -21,7 +22,7 @@
                 android:text="@string/course_name" />
 
             <TextView
-                android:id="@+id/course_name"
+                android:id="@+id/attend_student_course_name"
                 style="@style/text_style"
                 android:text="汇编语言" />
 
@@ -34,7 +35,7 @@
                 android:text="@string/course_address" />
 
             <TextView
-                android:id="@+id/course_address"
+                android:id="@+id/attend_student_course_address"
                 style="@style/text_style"
                 android:text="6栋101" />
 
@@ -47,7 +48,7 @@
                 android:text="@string/course_time" />
 
             <TextView
-                android:id="@+id/course_time"
+                android:id="@+id/attend_student_course_time"
                 style="@style/text_style"
                 android:text="9:00-12:00" />
 
@@ -60,7 +61,7 @@
                 android:text="@string/course_class_name" />
 
             <TextView
-                android:id="@+id/course_class"
+                android:id="@+id/attend_student_course_class"
                 style="@style/text_style"
                 android:text="12计本一班" />
 
@@ -69,12 +70,12 @@
         <LinearLayout style="@style/course_item_layout">
 
             <TextView
-                android:id="@+id/course_teacher_name"
+                android:id="@+id/attend_student_course_teacher_name"
                 style="@style/stabilize_text_style"
                 android:text="@string/course_teacher_name" />
 
             <TextView
-                android:id="@+id/course_teacher"
+                android:id="@+id/attend_student_course_teacher"
                 style="@style/text_style"
                 android:text="张运波" />
 
@@ -87,12 +88,22 @@
                 android:text="@string/course_phone" />
 
             <TextView
-                android:id="@+id/course_phone"
+                android:id="@+id/attend_student_course_phone"
                 style="@style/text_style"
                 android:text="11101011001" />
 
         </LinearLayout>
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/attend_student_no_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="无信息"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:visibility="gone"/>
     
     <Button
         android:id="@+id/attend_student_status"

@@ -1,20 +1,11 @@
 package qzu.com.attendance.entity;
 
-public class Teacher {
-
-    /**
-     * userType : 1
-     * UID : 1010001
-     * sersionId : c9e8a761d38f9135de71b1f38355da7f
-     * name : 尹成国
-     * status : 1
-     */
-
+public class Teacher extends BaseEntity{
+    
     private String userType;
     private String UID;
     private String sersionId;
     private String name;
-    private int status;
 
     public String getUserType() {
         return userType;
@@ -48,22 +39,13 @@ public class Teacher {
         this.name = name;
     }
 
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
-    }
-
     @Override
     public String toString() {
-        return "Teacher{" +
+        return  super.toString() + "Teacher{" +
                 "userType='" + userType + '\'' +
                 ", UID='" + UID + '\'' +
                 ", sersionId='" + sersionId + '\'' +
                 ", name='" + name + '\'' +
-                ", status=" + status +
                 '}';
     }
 }

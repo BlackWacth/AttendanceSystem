@@ -5,39 +5,36 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 /**
- * Created by HUA_ZHONG_WEI on 2016/4/4.
+ *  考勤，签到 
  */
-public class StudentAttendInfo {
+public class Attend extends BaseEntity{
+
 
     /**
-     * scheduleId : 1
-     * student : [{"stuId":"12237008","name":"twins","sex":"女","phone":"10100011011","class":"12计本一班","photo":"abc","check":0},{"stuId":"12237006","name":"张春鹏","sex":"女","phone":"10100011012","class":"12计本一班","photo":"abc","check":1}]
-     * stuCount : 2
-     * errno : 0
-     * status : 1
+     * scheduleId : 21
+     * schedule : [{"stuId":"12237008","name":"彭 双","sex":"女","phone":"10100011033","class":"12计本一班","photo":"http://ccide.iego.cn/twins/pic/12237008.png","check":1}]
+     * stuCount : 1
      */
 
-    private int scheduleId;
+    private String scheduleId;
     private int stuCount;
-    private int errno;
-    private int status;
     /**
      * stuId : 12237008
-     * name : twins
+     * name : 彭 双
      * sex : 女
-     * phone : 10100011011
+     * phone : 10100011033
      * class : 12计本一班
-     * photo : abc
-     * check : 0
+     * photo : http://ccide.iego.cn/twins/pic/12237008.png
+     * check : 1
      */
 
-    private List<StudentBean> student;
+    private List<ScheduleBean> schedule;
 
-    public int getScheduleId() {
+    public String getScheduleId() {
         return scheduleId;
     }
 
-    public void setScheduleId(int scheduleId) {
+    public void setScheduleId(String scheduleId) {
         this.scheduleId = scheduleId;
     }
 
@@ -49,31 +46,15 @@ public class StudentAttendInfo {
         this.stuCount = stuCount;
     }
 
-    public int getErrno() {
-        return errno;
+    public List<ScheduleBean> getSchedule() {
+        return schedule;
     }
 
-    public void setErrno(int errno) {
-        this.errno = errno;
+    public void setSchedule(List<ScheduleBean> schedule) {
+        this.schedule = schedule;
     }
 
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
-    }
-
-    public List<StudentBean> getStudent() {
-        return student;
-    }
-
-    public void setStudent(List<StudentBean> student) {
-        this.student = student;
-    }
-
-    public static class StudentBean {
+    public static class ScheduleBean {
         private String stuId;
         private String name;
         private String sex;
@@ -141,26 +122,24 @@ public class StudentAttendInfo {
 
         @Override
         public String toString() {
-            return "StudentBean{" +
-                    "stuId='" + stuId + '\'' +
-                    ", name='" + name + '\'' +
-                    ", sex='" + sex + '\'' +
-                    ", phone='" + phone + '\'' +
-                    ", classX='" + classX + '\'' +
-                    ", photo='" + photo + '\'' +
-                    ", check=" + check +
-                    '}';
+            return "ScheduleBean{" +
+                    "\nstuId='" + stuId + '\'' +
+                    ",\n name='" + name + '\'' +
+                    ",\n sex='" + sex + '\'' +
+                    ",\n phone='" + phone + '\'' +
+                    ",\n classX='" + classX + '\'' +
+                    ",\n photo='" + photo + '\'' +
+                    ",\n check=" + check +
+                    "\n}";
         }
     }
 
     @Override
     public String toString() {
-        return "StudentAttendInfo{" +
-                "scheduleId=" + scheduleId +
-                ", stuCount=" + stuCount +
-                ", errno=" + errno +
-                ", status=" + status +
-                ", student=" + student +
-                '}';
+        return super.toString() + "\nAttend{" +
+                "\nscheduleId='" + scheduleId + '\'' +
+                ",\n stuCount=" + stuCount +
+                ",\n schedule=" + schedule +
+                "\n}";
     }
 }

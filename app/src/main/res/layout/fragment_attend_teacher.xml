@@ -10,6 +10,16 @@
         android:layout_height="match_parent"
         android:layout_above="@+id/attend_teacher_bottom" />
 
+    <TextView
+        android:id="@+id/attend_teacher_no_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="没有学生"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:visibility="gone"/>
+
     <LinearLayout
         android:id="@+id/attend_teacher_bottom"
         android:layout_width="match_parent"
@@ -24,23 +34,23 @@
         <Button
             android:id="@+id/attend_teacher_open_bluetooth"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:layout_weight="1"
             android:background="@color/colorPrimary"
             android:text="@string/attend_teacher_open_bluetooth"
             android:textColor="@color/white"
-            android:layout_margin="4dp"
             android:textSize="20sp" />
 
         <Button
             android:id="@+id/attend_teacher_send"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:layout_weight="1"
             android:background="@color/colorPrimary"
             android:text="@string/attend_teacher_send"
             android:textColor="@color/white"
-            android:layout_margin="4dp"
             android:textSize="20sp" />
 
     </LinearLayout>

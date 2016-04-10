@@ -18,7 +18,7 @@
             android:layout_height="match_parent">
 
             <ImageView
-                android:id="@+id/ask_icon"
+                android:id="@+id/persional_icon"
                 android:layout_width="84dp"
                 android:layout_height="84dp"
                 android:layout_centerHorizontal="true"
@@ -26,11 +26,10 @@
                 android:src="@mipmap/ic_launcher" />
 
             <LinearLayout
-                android:id="@+id/ask_student_info"
+                android:id="@+id/persional_student_info"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
-                android:layout_below="@+id/ask_icon"
+                android:layout_below="@+id/persional_icon"
                 android:layout_marginTop="16dp"
                 android:orientation="vertical"
                 android:paddingLeft="16dp">
@@ -145,7 +144,7 @@
     </ScrollView>
 
     <Button
-        android:id="@+id/ask_question_btn"
+        android:id="@+id/persional_info_change"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

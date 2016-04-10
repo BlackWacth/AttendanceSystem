@@ -3,34 +3,32 @@ package qzu.com.attendance.entity;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * Created by ZHONG WEI  HUA on 2016/4/6.
+ * 学生实体
  */
-public class Student {
+public class  Student extends BaseEntity{
+
 
     /**
-     * userType : 1
-     * UID : 110
-     * sersionId : 1604040939
-     * name : twins
+     * userType : 2
+     * UID : 12237001
+     * sersionId : 8c60843085285424f3bf16bd890da733
+     * name : 孙一鸣
      * sex : 男
-     * phone : 11101011001
+     * phone : 10100011011
      * class : 12计本一班
-     * college : 电子信息通信学院
-     * errno : 1
-     * status : 1
+     * college : 电子通信工程学院 
      */
 
     private String userType;
     private String UID;
-    private int sersionId;
+    private String sersionId;
     private String name;
     private String sex;
     private String phone;
     @SerializedName("class")
     private String classX;
     private String college;
-    private int errno;
-    private int status;
+    private String photo;
 
     public String getUserType() {
         return userType;
@@ -48,11 +46,11 @@ public class Student {
         this.UID = UID;
     }
 
-    public int getSersionId() {
+    public String getSersionId() {
         return sersionId;
     }
 
-    public void setSersionId(int sersionId) {
+    public void setSersionId(String sersionId) {
         this.sersionId = sersionId;
     }
 
@@ -96,35 +94,26 @@ public class Student {
         this.college = college;
     }
 
-    public int getErrno() {
-        return errno;
+    public String getPhoto() {
+        return photo;
     }
 
-    public void setErrno(int errno) {
-        this.errno = errno;
-    }
-
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
+    public void setPhoto(String photo) {
+        this.photo = photo;
     }
 
     @Override
     public String toString() {
-        return "Student{" +
-                "userType='" + userType + '\'' +
-                ", UID='" + UID + '\'' +
-                ", sersionId=" + sersionId +
-                ", name='" + name + '\'' +
-                ", sex='" + sex + '\'' +
-                ", phone='" + phone + '\'' +
-                ", classX='" + classX + '\'' +
-                ", college='" + college + '\'' +
-                ", errno=" + errno +
-                ", status=" + status +
-                '}';
+        return super.toString() + "\nStudent{" +
+                "\nuserType='" + userType + '\'' +
+                ",\n UID='" + UID + '\'' +
+                ",\n sersionId='" + sersionId + '\'' +
+                ",\n name='" + name + '\'' +
+                ",\n sex='" + sex + '\'' +
+                ",\n phone='" + phone + '\'' +
+                ",\n classX='" + classX + '\'' +
+                ",\n college='" + college + '\'' +
+                ",\n photo = '" + photo + '\'' +
+                "}";
     }
 }

@@ -8,9 +8,13 @@ import android.support.v7.widget.Toolbar;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import qzu.com.attendance.R;
 import qzu.com.attendance.application.AApplication;
+import qzu.com.attendance.entity.BaseEntity;
+import qzu.com.attendance.entity.Student;
+import qzu.com.attendance.entity.Teacher;
 import qzu.com.attendance.ui.adapter.PagerAdapter;
 import qzu.com.attendance.ui.base.BaseActivity;
 import qzu.com.attendance.ui.base.BaseFragment;
@@ -35,8 +39,12 @@ public class DetailActivity extends BaseActivity {
 
     private List<PagerAdapter.FragmentModel> mModels;
 
-    AttendStudentFragment studentFragment;
-    AttendTeacherFragment teacherFragment;
+    private int type;
+    private Teacher teacher;
+    private Student student;
+    private String userType;
+    private String uid;
+    private String sersionId;
 
     @Override
     protected int getLayoutId() {
@@ -53,12 +61,11 @@ public class DetailActivity extends BaseActivity {
 
     @Override
     protected void initData() {
+        getIntentData();
         String syllabus = getResouseString(R.string.syllabus);
         String course = getResouseString(R.string.course);
         String attend = "";
         String info = "";
-        studentFragment = new AttendStudentFragment();
-        teacherFragment = new AttendTeacherFragment();
         
         BaseFragment attendFragemnt = null;
         BaseFragment infoFragemnt = new AskQuestionFragment();
@@ -66,26 +73,51 @@ public class DetailActivity extends BaseActivity {
         if(AApplication.USER_TYPE == AApplication.TYPE_TEACHER) {
             attend = getResouseString(R.string.attend_teacher);
             info = getResouseString(R.string.info_teacher);
-            attendFragemnt = teacherFragment;
-            infoFragemnt = new AskQuestionFragment();
+            attendFragemnt = new AttendTeacherFragment(userType, uid, sersionId);
+            infoFragemnt = new AskQuestionFragment(userType, uid, sersionId);
         }else if(AApplication.USER_TYPE == AApplication.TYPE_STUDENT) {
             attend = getResouseString(R.string.attend_student);
             info = getResouseString(R.string.info_student);
-            attendFragemnt = studentFragment;
-            infoFragemnt = new PersionalInfoFragment();
+            attendFragemnt = new AttendStudentFragment(userType, uid, sersionId);
+            infoFragemnt = new PersionalInfoFragment(student);
         }
 
         if(mModels == null) {
             mModels = new ArrayList<>();
-            mModels.add(new PagerAdapter.FragmentModel(syllabus, new SyllabusFragment()));
-            mModels.add(new PagerAdapter.FragmentModel(course, new CourseFragment()));
+            mModels.add(new PagerAdapter.FragmentModel(syllabus, new SyllabusFragment(userType, uid, sersionId)));
+            mModels.add(new PagerAdapter.FragmentModel(course, new CourseFragment(userType, uid, sersionId)));
             mModels.add(new PagerAdapter.FragmentModel(attend, attendFragemnt));
             mModels.add(new PagerAdapter.FragmentModel(info, infoFragemnt));
         }
         initViewPager();
     }
 
+    /**
+     *  获取登录后用户数据，以便向下传递
+     */
+    private void getIntentData() {
+        Intent intent = getIntent();
+        type = intent.getIntExtra(EXTRA_LOGIN_TYPE, AApplication.USER_TYPE);
+
+        BaseEntity entity = (BaseEntity) intent.getSerializableExtra(EXTRA_LOGIN_DATA);
+        if(type == AApplication.TYPE_TEACHER) {
+            teacher = (Teacher) entity;
+            userType = teacher.getUserType();
+            uid = teacher.getUID();
+            sersionId = teacher.getSersionId();
+        }else if(type == AApplication.TYPE_STUDENT) {
+            student = (Student) entity;
+            userType = student.getUserType();
+            uid = student.getUID();
+            sersionId = student.getSersionId();
+        }
+        L.i("userType : " + userType);
+        L.i("uid : " + uid);
+        L.i("sersionId : " + sersionId);
+    }
+
     private void initViewPager() {
+        mViewPager.setOffscreenPageLimit(1);
         mPagerAdapter = new PagerAdapter(getSupportFragmentManager(), mModels);
         mViewPager.setAdapter(mPagerAdapter);
         mTabLayout.setupWithViewPager(mViewPager);

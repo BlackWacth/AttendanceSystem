@@ -22,5 +22,5 @@ public class Constants {
     public static final String EXTRA_BLUETOOTH_STATE = "EXTRA_BLUETOOTH_STATE";
 
     public static final int NETWORK_STATUS_SUCCESS = 1;
-    public static final int NETWORK_STATUS_ERROR = 1;
+    public static final int NETWORK_STATUS_ERROR = 0;
 }

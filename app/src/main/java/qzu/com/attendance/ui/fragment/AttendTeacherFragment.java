@@ -8,15 +8,19 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import qzu.com.attendance.R;
-import qzu.com.attendance.entity.StudentAttendInfo;
+import qzu.com.attendance.application.AApplication;
+import qzu.com.attendance.entity.Attend;
+import qzu.com.attendance.http.subscriber.SubscriberOnNextListener;
 import qzu.com.attendance.service.BluetoothTeacherService;
 import qzu.com.attendance.ui.adapter.AttendTeacherAdapter;
 import qzu.com.attendance.ui.base.BaseFragment;
+import qzu.com.attendance.ui.view.MDialog;
 import qzu.com.attendance.utils.BluetoothUtils;
 import qzu.com.attendance.utils.Constants;
 import qzu.com.attendance.utils.L;
@@ -33,12 +37,18 @@ public class AttendTeacherFragment extends BaseFragment implements View.OnClickL
 
     private RecyclerView mRecyclerView;
     private Button mSend, mOpen;
-    
-    private List<StudentAttendInfo> mList;
+    private TextView noStudent;
+    private List<Attend.ScheduleBean> mList;
     private AttendTeacherAdapter mAdapter;
 
     private CountDownTimer mCountDownTimer;
     private String openBtnContent;
+    
+    
+    private String userType;
+    private String uid;
+    private String sersionId;
+    private String AskType = "3";
 
     private BluetoothTeacherService mBluetoothServer;
     private Handler mHandler = new Handler() {
@@ -54,6 +64,15 @@ public class AttendTeacherFragment extends BaseFragment implements View.OnClickL
         }
     };
 
+    public AttendTeacherFragment() {
+        
+    }
+
+    public AttendTeacherFragment(String userType, String uid, String sersionId) {
+        this.userType = userType;
+        this.uid = uid;
+        this.sersionId = sersionId;
+    }
 
     @Override
     protected int getLayoutId() {
@@ -65,6 +84,9 @@ public class AttendTeacherFragment extends BaseFragment implements View.OnClickL
         mRecyclerView = (RecyclerView) view.findViewById(R.id.attend_teacher_recycler_view);
         mSend = (Button) view.findViewById(R.id.attend_teacher_send);
         mOpen = (Button) view.findViewById(R.id.attend_teacher_open_bluetooth);
+        noStudent = (TextView) view.findViewById(R.id.attend_teacher_no_text);
+        noStudent.setVisibility(View.GONE);
+        
         openBtnContent = getResouseString(R.string.attend_teacher_open_bluetooth);
         mSend.setOnClickListener(this);
         mOpen.setOnClickListener(this);
@@ -74,7 +96,6 @@ public class AttendTeacherFragment extends BaseFragment implements View.OnClickL
     protected void initData() {
         if(mList == null) {
             mList = new ArrayList<>();
-            mList.add(new StudentAttendInfo());
         }
 
         mBluetoothServer = new BluetoothTeacherService(mHandler);
@@ -93,6 +114,51 @@ public class AttendTeacherFragment extends BaseFragment implements View.OnClickL
                 cancelTimer();
             }
         };
+
+        
+    }
+
+    private void getAttendStudent() {
+        AApplication.mHttpMethod.attend(getActivity(), new SubscriberOnNextListener<Attend>() {
+            @Override
+            public void success(Attend attend) {
+                L.i("+++++" + attend.toString());
+                isHasLoadedOnce = true;
+                if(attend.getStuCount() <= 0) {
+                    noStudent.setVisibility(View.VISIBLE);
+                    return;
+                }
+                noStudent.setVisibility(View.GONE);
+                mList.addAll(attend.getSchedule());
+            }
+
+            @Override
+            public void error(int code) {
+                errorTip(code);
+            }
+        },userType, uid, sersionId, AskType);
+    }
+
+    @Override
+    protected void lazyLoad() {
+        getAttendStudent();
+    }
+
+    private void errorTip(int code){
+        String errorText = "";
+        switch (code) {
+            case 1:
+                errorText = "请求错误";
+                break;
+
+            case 2:
+                errorText = "登陆验证失效";
+                break;
+            default:
+                errorText = "未知异常";
+                break;
+        }
+        MDialog.showDialog(getContext(), errorText);
     }
 
     private void cancelTimer() {
@@ -107,7 +173,7 @@ public class AttendTeacherFragment extends BaseFragment implements View.OnClickL
     }
 
     public void initRecyclerView() {
-        mAdapter = new AttendTeacherAdapter(getActivity(), mList);
+        mAdapter = new AttendTeacherAdapter(getActivity(), this, mList);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setAdapter(mAdapter);
     }

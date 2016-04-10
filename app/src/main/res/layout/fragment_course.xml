@@ -2,94 +2,108 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:gravity="center"
+    android:orientation="vertical"
     android:padding="16dp"
     tools:context="qzu.com.attendance.ui.fragment.CourseFragment">
-    
-    <LinearLayout
-        style="@style/course_item_layout"
-        android:layout_marginTop="4dp">
-        <TextView
-            style="@style/stabilize_text_style"
-            android:text="@string/course_name"/>
-
-        <TextView
-            android:id="@+id/course_name"
-            style="@style/text_style"
-            android:text="汇编语言"/>
-        
-    </LinearLayout>
 
     <LinearLayout
-        style="@style/course_item_layout">
-        
-        <TextView
-            style="@style/stabilize_text_style"
-            android:text="@string/course_address"/>
+        android:id="@+id/course_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/course_address"
-            style="@style/text_style"
-            android:text="6栋101"/>
+        <LinearLayout
+            style="@style/course_item_layout"
+            android:layout_marginTop="4dp">
+
+            <TextView
+                style="@style/stabilize_text_style"
+                android:text="@string/course_name" />
+
+            <TextView
+                android:id="@+id/course_name"
+                style="@style/text_style"
+                android:text="汇编语言" />
+
+        </LinearLayout>
+
+        <LinearLayout style="@style/course_item_layout">
+
+            <TextView
+                style="@style/stabilize_text_style"
+                android:text="@string/course_address" />
+
+            <TextView
+                android:id="@+id/course_address"
+                style="@style/text_style"
+                android:text="6栋101" />
+
+        </LinearLayout>
+
+        <LinearLayout style="@style/course_item_layout">
+
+            <TextView
+                style="@style/stabilize_text_style"
+                android:text="@string/course_time" />
+
+            <TextView
+                android:id="@+id/course_time"
+                style="@style/text_style"
+                android:text="9:00-12:00" />
+
+        </LinearLayout>
+
+        <LinearLayout style="@style/course_item_layout">
+
+            <TextView
+                style="@style/stabilize_text_style"
+                android:text="@string/course_class_name" />
+
+            <TextView
+                android:id="@+id/course_class"
+                style="@style/text_style"
+                android:text="12计本一班" />
+
+        </LinearLayout>
+
+        <LinearLayout style="@style/course_item_layout">
+
+            <TextView
+                android:id="@+id/course_teacher_name"
+                style="@style/stabilize_text_style"
+                android:text="@string/course_teacher_name" />
+
+            <TextView
+                android:id="@+id/course_teacher"
+                style="@style/text_style"
+                android:text="张运波" />
+
+        </LinearLayout>
+
+        <LinearLayout style="@style/course_item_layout">
+
+            <TextView
+                style="@style/stabilize_text_style"
+                android:text="@string/course_phone" />
+
+            <TextView
+                android:id="@+id/course_phone"
+                style="@style/text_style"
+                android:text="11101011001" />
+
+        </LinearLayout>
 
     </LinearLayout>
 
-    <LinearLayout
-        style="@style/course_item_layout">
-
-        <TextView
-            style="@style/stabilize_text_style"
-            android:text="@string/course_time"/>
-
-        <TextView
-            android:id="@+id/course_time"
-            style="@style/text_style"
-            android:text="9:00-12:00"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        style="@style/course_item_layout">
-
-        <TextView
-            style="@style/stabilize_text_style"
-            android:text="@string/course_class_name"/>
-
-        <TextView
-            android:id="@+id/course_class"
-            style="@style/text_style"
-            android:text="12计本一班"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        style="@style/course_item_layout">
-
-        <TextView
-            android:id="@+id/course_teacher_name"
-            style="@style/stabilize_text_style"
-            android:text="@string/course_teacher_name"/>
-
-        <TextView
-            android:id="@+id/course_teacher"
-            style="@style/text_style"
-            android:text="张运波"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        style="@style/course_item_layout">
-
-        <TextView
-            style="@style/stabilize_text_style"
-            android:text="@string/course_phone"/>
-
-        <TextView
-            android:id="@+id/course_phone"
-            style="@style/text_style"
-            android:text="11101011001"/>
-
-    </LinearLayout>
+    <TextView
+        android:id="@+id/course_no_course"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="当前没有课程"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:visibility="gone" />
 
 </LinearLayout>

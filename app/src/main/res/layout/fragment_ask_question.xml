@@ -5,94 +5,109 @@
     android:padding="16dp"
     tools:context=".ui.fragment.AskQuestionFragment">
 
-    <ImageView
-        android:id="@+id/ask_icon"
-        android:layout_width="84dp"
-        android:layout_height="84dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="16dp"
-        android:src="@mipmap/ic_launcher" />
-
-    <LinearLayout
-        android:id="@+id/ask_student_info"
+    <RelativeLayout
+        android:id="@+id/ask_content_layout"
         android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/ask_question_btn">
+
+        <ImageView
+            android:id="@+id/ask_icon"
+            android:layout_width="84dp"
+            android:layout_height="84dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="16dp"
+            android:src="@mipmap/ic_launcher" />
+
+        <LinearLayout
+            android:id="@+id/ask_student_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ask_icon"
+            android:layout_marginTop="8dp"
+            android:orientation="vertical"
+            android:paddingLeft="16dp">
+
+            <LinearLayout
+                style="@style/course_item_layout"
+                android:layout_marginTop="4dp">
+
+                <TextView
+                    style="@style/stabilize_text_style"
+                    android:text="@string/student_name" />
+
+                <TextView
+                    android:id="@+id/ask_student_name"
+                    style="@style/text_style"
+                    android:text="Bruce" />
+
+            </LinearLayout>
+
+            <LinearLayout style="@style/course_item_layout">
+
+                <TextView
+                    android:id="@+id/course_teacher_name"
+                    style="@style/stabilize_text_style"
+                    android:text="@string/student_class" />
+
+                <TextView
+                    android:id="@+id/ask_student_class"
+                    style="@style/text_style"
+                    android:text="12计本一班" />
+
+            </LinearLayout>
+
+            <LinearLayout style="@style/course_item_layout">
+
+                <TextView
+                    style="@style/stabilize_text_style"
+                    android:text="@string/student_ID" />
+
+                <TextView
+                    android:id="@+id/ask_student_id"
+                    style="@style/text_style"
+                    android:text="00111111" />
+
+            </LinearLayout>
+
+            <LinearLayout style="@style/course_item_layout">
+
+                <TextView
+                    style="@style/stabilize_text_style"
+                    android:text="@string/student_sex" />
+
+                <TextView
+                    android:id="@+id/ask_student_sex"
+                    style="@style/text_style"
+                    android:text="男" />
+
+            </LinearLayout>
+
+            <LinearLayout style="@style/course_item_layout">
+
+                <TextView
+                    style="@style/stabilize_text_style"
+                    android:text="@string/student_phone" />
+
+                <TextView
+                    android:id="@+id/ask_student_phone"
+                    style="@style/text_style"
+                    android:text="15576413134" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/ask_no_course"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/ask_question_btn"
-        android:layout_below="@+id/ask_icon"
-        android:layout_marginTop="8dp"
-        android:orientation="vertical"
-        android:paddingLeft="16dp">
-
-        <LinearLayout
-            style="@style/course_item_layout"
-            android:layout_marginTop="4dp">
-
-            <TextView
-                style="@style/stabilize_text_style"
-                android:text="@string/student_name" />
-
-            <TextView
-                android:id="@+id/ask_student_name"
-                style="@style/text_style"
-                android:text="Bruce" />
-
-        </LinearLayout>
-
-        <LinearLayout style="@style/course_item_layout">
-
-            <TextView
-                android:id="@+id/course_teacher_name"
-                style="@style/stabilize_text_style"
-                android:text="@string/student_class" />
-
-            <TextView
-                android:id="@+id/ask_student_class"
-                style="@style/text_style"
-                android:text="12计本一班" />
-
-        </LinearLayout>
-
-        <LinearLayout style="@style/course_item_layout">
-
-            <TextView
-                style="@style/stabilize_text_style"
-                android:text="@string/student_ID" />
-
-            <TextView
-                android:id="@+id/ask_student_id"
-                style="@style/text_style"
-                android:text="00111111" />
-
-        </LinearLayout>
-
-        <LinearLayout style="@style/course_item_layout">
-
-            <TextView
-                style="@style/stabilize_text_style"
-                android:text="@string/student_sex" />
-
-            <TextView
-                android:id="@+id/ask_student_sex"
-                style="@style/text_style"
-                android:text="男" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            style="@style/course_item_layout">
-
-            <TextView
-                style="@style/stabilize_text_style"
-                android:text="@string/student_phone"/>
-
-            <TextView
-                android:id="@+id/ask_student_phone"
-                style="@style/text_style"
-                android:text="15576413134"/>
-
-        </LinearLayout>
-
-    </LinearLayout>
+        android:layout_centerInParent="true"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:visibility="gone"
+        android:text="当前没有课程"/>
 
     <Button
         android:id="@+id/ask_question_btn"

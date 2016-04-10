@@ -52,13 +52,13 @@ public class SyllabusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 ((SyllabusTextHolder) holder).content.setText(item.getContent());
             }
         }else if(holder instanceof SyllabusCardHolder) {
-            if(item != null && item.getCourse() != null){
+            if(item != null && item.getSchedule() != null){
                 SyllabusCardHolder cardHolder = (SyllabusCardHolder) holder;
                 if(item.getColor() != 0){
                     cardHolder.cardView.setCardBackgroundColor(mContext.getResources().getColor(item.getColor()));
                 }
-                cardHolder.courseName.setText("数据结构");
-                cardHolder.address.setText("8栋301");
+                cardHolder.courseName.setText(item.getSchedule().getCourseName());
+                cardHolder.address.setText(item.getSchedule().getAddress());
             }
         }
     }

@@ -1,141 +1,104 @@
 package qzu.com.attendance.entity;
 
-import java.util.List;
-
 /**
- * 课程实体类
+ * Created by HUA_ZHONG_WEI on 2016/4/9.
  */
-public class Course {
+public class Course extends BaseEntity{
 
     /**
-     * schedule : [{"week":1,"node":2,"coursename":"数据结构","address":"8栋301","starttime":"10:30:00","endtime":"12:00:00"},{"week":2,"node":2,"coursename":"web网络编程","address":"3栋301","starttime":"10:30:00","endtime":"12:00:00"}]
-     * scheduleCount : 2
-     * errno : 1
-     * status : 1
+     * name : WEB网络编程
+     * address : 8栋110
+     * startTime : 20:00:00
+     * endTime : 21:30:00
+     * className : 12计本一班
+     * TeacherName : 尹成国
+     * phone : 11101011001
+     * isExist : true
      */
+    private String name;
+    private String address;
+    private String startTime;
+    private String endTime;
+    private String className;
+    private String TeacherName;
+    private String phone;
+    private boolean isExist;
 
-    private int scheduleCount;
-    private int errno;
-    private int status;
-    /**
-     * week : 1
-     * node : 2
-     * coursename : 数据结构
-     * address : 8栋301
-     * starttime : 10:30:00
-     * endtime : 12:00:00
-     */
-
-    private List<ScheduleBean> schedule;
-
-    public int getScheduleCount() {
-        return scheduleCount;
+    public String getName() {
+        return name;
     }
 
-    public void setScheduleCount(int scheduleCount) {
-        this.scheduleCount = scheduleCount;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public int getErrno() {
-        return errno;
+    public String getAddress() {
+        return address;
     }
 
-    public void setErrno(int errno) {
-        this.errno = errno;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
-    public int getStatus() {
-        return status;
+    public String getStartTime() {
+        return startTime;
     }
 
-    public void setStatus(int status) {
-        this.status = status;
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
     }
 
-    public List<ScheduleBean> getSchedule() {
-        return schedule;
+    public String getEndTime() {
+        return endTime;
     }
 
-    public void setSchedule(List<ScheduleBean> schedule) {
-        this.schedule = schedule;
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
     }
 
-    public static class ScheduleBean {
-        private int week;
-        private int node;
-        private String coursename;
-        private String address;
-        private String starttime;
-        private String endtime;
+    public String getClassName() {
+        return className;
+    }
 
-        public int getWeek() {
-            return week;
-        }
+    public void setClassName(String className) {
+        this.className = className;
+    }
 
-        public void setWeek(int week) {
-            this.week = week;
-        }
+    public String getTeacherName() {
+        return TeacherName;
+    }
 
-        public int getNode() {
-            return node;
-        }
+    public void setTeacherName(String TeacherName) {
+        this.TeacherName = TeacherName;
+    }
 
-        public void setNode(int node) {
-            this.node = node;
-        }
+    public String getPhone() {
+        return phone;
+    }
 
-        public String getCoursename() {
-            return coursename;
-        }
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
 
-        public void setCoursename(String coursename) {
-            this.coursename = coursename;
-        }
+    public boolean isExist() {
+        return isExist;
+    }
 
-        public String getAddress() {
-            return address;
-        }
-
-        public void setAddress(String address) {
-            this.address = address;
-        }
-
-        public String getStarttime() {
-            return starttime;
-        }
-
-        public void setStarttime(String starttime) {
-            this.starttime = starttime;
-        }
-
-        public String getEndtime() {
-            return endtime;
-        }
-
-        public void setEndtime(String endtime) {
-            this.endtime = endtime;
-        }
-
-        @Override
-        public String toString() {
-            return "ScheduleBean{" +
-                    "week=" + week +
-                    ", node=" + node +
-                    ", coursename='" + coursename + '\'' +
-                    ", address='" + address + '\'' +
-                    ", starttime='" + starttime + '\'' +
-                    ", endtime='" + endtime + '\'' +
-                    '}';
-        }
+    public void setExist(boolean isExist) {
+        this.isExist = isExist;
     }
 
     @Override
     public String toString() {
-        return "Course{" +
-                "scheduleCount=" + scheduleCount +
-                ", errno=" + errno +
-                ", status=" + status +
-                ", schedule=" + schedule +
+        return super.toString() + "Course{" +
+                "name='" + name + '\'' +
+                ", address='" + address + '\'' +
+                ", startTime='" + startTime + '\'' +
+                ", endTime='" + endTime + '\'' +
+                ", className='" + className + '\'' +
+                ", TeacherName='" + TeacherName + '\'' +
+                ", phone='" + phone + '\'' +
+                ", isExist=" + isExist +
                 '}';
     }
 }

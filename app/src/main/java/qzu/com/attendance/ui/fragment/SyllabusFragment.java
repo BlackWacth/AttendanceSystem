@@ -1,26 +1,23 @@
 package qzu.com.attendance.ui.fragment;
 
 
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Random;
 
 
 import qzu.com.attendance.R;
-import qzu.com.attendance.entity.Course;
+import qzu.com.attendance.application.AApplication;
+import qzu.com.attendance.entity.Syllabus;
 import qzu.com.attendance.entity.SyllabusCourse;
+import qzu.com.attendance.http.subscriber.SubscriberOnNextListener;
 import qzu.com.attendance.ui.adapter.SyllabusAdapter;
 import qzu.com.attendance.ui.base.BaseFragment;
 import qzu.com.attendance.ui.view.DividerGridItemDecoration;
+import qzu.com.attendance.ui.view.MDialog;
+import qzu.com.attendance.utils.L;
+import qzu.com.attendance.utils.Utils;
 
 /**
  * 课程表
@@ -30,15 +27,7 @@ public class SyllabusFragment extends BaseFragment {
     /**课程表这里只显示到周五，共6列 */
     public static final int COLUMN_NUM = 6;
     public static final String DEFUALT_CONTENT = "";
-    /**
-     * <color name="cyan500">#00bcd4</color>
-     <color name="light_blue_a200">#40c4ff</color>
-     <color name="green500">#259b24</color>
-     <color name="indigo_a200">#536dfe</color>
-     <color name="amber500">#ffc107</color>
-     <color name="blue500">#5677fc</color>
-     <color name="deep_purple_a200">#7c4dff</color>
-     */
+ 
     public static final int[] BACKGROUND_COLOR = {R.color.amber500,
             R.color.cyan500,
             R.color.light_blue_a200,
@@ -52,6 +41,21 @@ public class SyllabusFragment extends BaseFragment {
     private SyllabusAdapter mAdapter;
     private SyllabusCourse[] mData = new SyllabusCourse[36];
     private Random mRandom;
+    
+    private String userType;
+    private String uid;
+    private String sersionId;
+    private String AskType = "1";
+    
+    public SyllabusFragment(String userType, String uid, String sersionId) {
+        this.userType = userType;
+        this.uid = uid;
+        this.sersionId = sersionId;
+    }
+
+    public SyllabusFragment(){
+        
+    }
 
     @Override
     protected int getLayoutId() {
@@ -67,7 +71,49 @@ public class SyllabusFragment extends BaseFragment {
     protected void initData() {
         mRandom = new Random();
         initGrid();
-        addCourse();
+        initRecyclerView();
+    }
+
+    @Override
+    protected void lazyLoad() {
+        getSysllabusData();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+    
+    private void getSysllabusData() {
+        AApplication.mHttpMethod.getSyllabus(getActivity(), new SubscriberOnNextListener<Syllabus>() {
+            @Override
+            public void success(Syllabus syllabus) {
+                isHasLoadedOnce = true;
+                L.i("syllabus --> " + syllabus.toString());
+                if(syllabus.getScheduleCount() <= 0) {
+                    return ;
+                }
+                for(Syllabus.ScheduleBean bean : syllabus.getSchedule()) {
+                    int week = Utils.string2Int(bean.getWeek());
+                    int node = Utils.string2Int(bean.getNode());
+                    if((week > 0 && week < 6) && (node > 0 && node < 6)) {
+                        L.i("week = " +  week + "  node = " + node);
+                        int index = calculateIndexInRecycler(week, node);
+                        mData[index] = new SyllabusCourse(DEFUALT_CONTENT, bean, SyllabusCourse.ITEM_TYPE.ITEM_TYPE_CARD.ordinal(), getRandomColor());    
+                    }
+                }
+            }
+
+            @Override
+            public void error(int code) {
+                errorTip(code);
+            }
+        },userType, uid, sersionId, AskType);
     }
 
     private void initRecyclerView() {
@@ -77,12 +123,23 @@ public class SyllabusFragment extends BaseFragment {
         mRecyclerView.addItemDecoration(new DividerGridItemDecoration(getActivity()));
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        initRecyclerView();
-    }
+    private void errorTip(int code){
+        String errorText = "";
+        switch (code) {
+            case 1:
+                errorText = "请求错误";
+                break;
 
+            case 2:
+                errorText = "登陆验证失效";
+                break;
+            default:
+                errorText = "未知异常";
+                break;
+        }
+        MDialog.showDialog(getContext(), errorText);
+    }
+    
     /**
      * 计算课程在表格中的位置
      * @param week 周几（1，2,3,4,5）
@@ -99,7 +156,7 @@ public class SyllabusFragment extends BaseFragment {
     private void initGrid() {
 
         for(int i = 0; i < mData.length; i++) {
-            mData[i] = new SyllabusCourse(DEFUALT_CONTENT, null, SyllabusCourse.ITEM_TYPE.ITEM_TYPE_TEXT.ordinal());
+            mData[i] = new SyllabusCourse(DEFUALT_CONTENT, null, SyllabusCourse.ITEM_TYPE.ITEM_TYPE_TEXT.ordinal(), 0);
         }
 
         mData[1].setContent("周一");
@@ -114,20 +171,6 @@ public class SyllabusFragment extends BaseFragment {
         mData[24].setContent("7, 8节");
         mData[30].setContent("9, 10节");
 
-    }
-
-    private void addCourse() {
-        mData[13] = new SyllabusCourse(DEFUALT_CONTENT, new Course(), SyllabusCourse.ITEM_TYPE.ITEM_TYPE_CARD.ordinal());
-        mData[13].setColor(getRandomColor());
-
-        mData[20] = new SyllabusCourse(DEFUALT_CONTENT, new Course(), SyllabusCourse.ITEM_TYPE.ITEM_TYPE_CARD.ordinal());
-        mData[20].setColor(getRandomColor());
-
-        mData[28] = new SyllabusCourse(DEFUALT_CONTENT, new Course(), SyllabusCourse.ITEM_TYPE.ITEM_TYPE_CARD.ordinal());
-        mData[28].setColor(getRandomColor());
-
-        mData[16] = new SyllabusCourse(DEFUALT_CONTENT, new Course(), SyllabusCourse.ITEM_TYPE.ITEM_TYPE_CARD.ordinal());
-        mData[16].setColor(getRandomColor());
     }
 
     private int getRandomColor() {

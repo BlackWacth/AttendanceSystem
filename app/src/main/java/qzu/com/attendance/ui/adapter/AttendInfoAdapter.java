@@ -9,12 +9,10 @@ import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import java.lang.reflect.Constructor;
 import java.util.List;
 
 import qzu.com.attendance.R;
-import qzu.com.attendance.entity.AttendClassInfo;
-import qzu.com.attendance.entity.StudentAttendInfo;
+import qzu.com.attendance.entity.Attend;
 
 /**
  * 
@@ -22,9 +20,9 @@ import qzu.com.attendance.entity.StudentAttendInfo;
 public class AttendInfoAdapter extends BaseAdapter{
 
     private Context mContext;
-    private List<StudentAttendInfo> mList;
+    private List<Attend> mList;
 
-    public AttendInfoAdapter(Context mContext, List<StudentAttendInfo> mList) {
+    public AttendInfoAdapter(Context mContext, List<Attend> mList) {
         this.mContext = mContext;
         this.mList = mList;
     }

@@ -3,23 +3,26 @@ package qzu.com.attendance.http.subscriber;
 import android.content.Context;
 import android.widget.Toast;
 
+import qzu.com.attendance.entity.BaseEntity;
 import qzu.com.attendance.http.progress.ProGressDialogHandler;
 import qzu.com.attendance.http.progress.ProgressCancelListener;
+import qzu.com.attendance.utils.Constants;
+import qzu.com.attendance.utils.L;
 import rx.Subscriber;
 
 /**
  * Created by ZHONG WEI  HUA on 2016/3/23.
  */
-public class ProgressSubscriber<T> extends Subscriber<T> implements ProgressCancelListener {
+public class ProgressSubscriber extends Subscriber<BaseEntity> implements ProgressCancelListener {
 
     private Context mContext;
 
-    private SubscriberOnNextListener mSubscriberOnNextListener;
+    private SubscriberOnNextListener<BaseEntity> mSubscriberOnNextListener;
     private ProGressDialogHandler mProGressDialogHandler;
 
     public ProgressSubscriber(Context mContext, SubscriberOnNextListener mSubscriberOnNextListener) {
         this.mContext = mContext;
-        this.mSubscriberOnNextListener = mSubscriberOnNextListener;
+        this.mSubscriberOnNextListener =  mSubscriberOnNextListener;
 
         mProGressDialogHandler = new ProGressDialogHandler(mContext, true, this);
     }
@@ -44,20 +47,25 @@ public class ProgressSubscriber<T> extends Subscriber<T> implements ProgressCanc
 
     @Override
     public void onCompleted() {
-        showToast("加载完成");
+//        showToast("加载完成");
         dissProgressDialog();
     }
 
     @Override
     public void onError(Throwable e) {
         showToast("网络异常");
+        L.i("网络异常 : " + e.getMessage() );
         dissProgressDialog();
     }
 
     @Override
-    public void onNext(T t) {
+    public void onNext(BaseEntity entity) {
         if(mSubscriberOnNextListener != null) {
-            mSubscriberOnNextListener.onNext(t);
+            if(entity.getStatus() == Constants.NETWORK_STATUS_SUCCESS){
+                mSubscriberOnNextListener.success(entity);
+            }else if(entity.getStatus() == Constants.NETWORK_STATUS_ERROR) {
+                mSubscriberOnNextListener.error(entity.getErrno());
+            }
         }
     }
 
