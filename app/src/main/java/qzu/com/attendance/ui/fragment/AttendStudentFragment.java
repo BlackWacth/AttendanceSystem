@@ -11,14 +11,16 @@ import android.widget.TextView;
 
 import qzu.com.attendance.R;
 import qzu.com.attendance.application.AApplication;
-import qzu.com.attendance.entity.Attend;
 import qzu.com.attendance.entity.Course;
+import qzu.com.attendance.http.progress.ProgressCancelListener;
+import qzu.com.attendance.http.progress.ProgressDialogHandler;
 import qzu.com.attendance.http.subscriber.SubscriberOnNextListener;
 import qzu.com.attendance.service.BluetoothStudentService;
 import qzu.com.attendance.service.BluetoothServer;
 import qzu.com.attendance.ui.activity.DevicesActivity;
 import qzu.com.attendance.ui.base.BaseFragment;
 import qzu.com.attendance.ui.view.MDialog;
+import qzu.com.attendance.utils.BluetoothUtils;
 import qzu.com.attendance.utils.Constants;
 import qzu.com.attendance.utils.L;
 import qzu.com.attendance.utils.Utils;
@@ -44,15 +46,33 @@ public class AttendStudentFragment extends BaseFragment implements View.OnClickL
     private String sersionId;
     private String AskType = "2";
     
-    private BluetoothServer mBluetoothServer;
+    private BluetoothStudentService mBluetoothServer;
+
+    private ProgressDialogHandler proGressDialogHandler;
+
+
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
+
+                case Constants.MESSAGE_STATE_CHANGE:
+                    int state = msg.getData().getInt(Constants.EXTRA_BLUETOOTH_STATE, -1);
+                    switch (state) {
+                        case BluetoothServer.STATE_CONNECTED:
+                            mBluetoothServer.write(uid);
+                            break;
+
+                    }
+                    break;
+
                 case Constants.MESSAGE_READ:
                     String readMsg = msg.getData().getString(Constants.EXTRA_READ_MASSAGE);
-                    showToast(readMsg);
-                    attentEnabled(false);
+                    if(readMsg.equals(AttendTeacherFragment.ATTEND_SUCCESS)) {
+                        showToast(readMsg);
+                        attentEnabled(false);
+                        dismissProgressDialog();
+                    }
                     break;
             }
         }
@@ -89,6 +109,13 @@ public class AttendStudentFragment extends BaseFragment implements View.OnClickL
         mContent = (LinearLayout) view.findViewById(R.id.attend_student_content_layout);
         mContent.setVisibility(View.VISIBLE);
 
+        proGressDialogHandler = new ProgressDialogHandler(getContext(), true, new ProgressCancelListener() {
+            @Override
+            public void onCancelProgress() {
+                mBluetoothServer.stop();
+            }
+        });
+
         String teacher = "";
         if(AApplication.USER_TYPE == AApplication.TYPE_TEACHER) {
             teacher = getResouseString(R.string.course_teacher_name_cls);
@@ -110,6 +137,7 @@ public class AttendStudentFragment extends BaseFragment implements View.OnClickL
                 L.i("------" + course.toString());
                 isHasLoadedOnce = true;
                 if(course.isExist()) {
+                    attentEnabled(true);
                     mContent.setVisibility(View.VISIBLE);
                     noStudent.setVisibility(View.GONE);
                     mCourseName.setText(course.getName());
@@ -119,6 +147,7 @@ public class AttendStudentFragment extends BaseFragment implements View.OnClickL
                     mCourseTeacher.setText(course.getTeacherName());
                     mCoursePhone.setText(course.getPhone());
                 }else {
+                    attentEnabled(false);
                     mContent.setVisibility(View.GONE);
                     noStudent.setVisibility(View.VISIBLE);
                 }
@@ -173,13 +202,19 @@ public class AttendStudentFragment extends BaseFragment implements View.OnClickL
         if(requestCode == Constants.REQUEST_CONNECT_DEVICE) {
             if(resultCode == -1) {
                 BluetoothDevice device = data.getParcelableExtra(Constants.EXTRA_CONNECT_DEVICE);
+                L.i(">>>> device : " + device);
                 mBluetoothServer.connect(device, true);
+                showProgressDialog();
             }
         }
     }
 
     @Override
     public void onClick(View v) {
+        if(!BluetoothUtils.isSupportBluetooth()) {
+            showToast("该机型不支持蓝牙");
+            return;
+        }
         Intent intent = new Intent(getActivity(), DevicesActivity.class);
         getActivity().startActivityForResult(intent, Constants.REQUEST_CONNECT_DEVICE);
     }
@@ -196,5 +231,13 @@ public class AttendStudentFragment extends BaseFragment implements View.OnClickL
             mStudentAttend.setEnabled(false);
             mStudentAttend.setBackgroundColor(getActivity().getResources().getColor(R.color.gray));
         }
+    }
+
+    private void showProgressDialog() {
+        proGressDialogHandler.obtainMessage(ProgressDialogHandler.SHOW_PROGRESS_DIALOG).sendToTarget();
+    }
+
+    private void dismissProgressDialog() {
+        proGressDialogHandler.obtainMessage(ProgressDialogHandler.DISMISS_PROGRESS_DIALOG).sendToTarget();
     }
 }

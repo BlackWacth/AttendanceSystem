@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.fragment.AttendStudentFragment">
 
     <android.support.v7.widget.RecyclerView
@@ -31,7 +32,7 @@
         android:layout_marginTop="8dp"
         android:orientation="horizontal">
 
-        <Button
+        <com.rey.material.widget.Button
             android:id="@+id/attend_teacher_open_bluetooth"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -40,9 +41,11 @@
             android:background="@color/colorPrimary"
             android:text="@string/attend_teacher_open_bluetooth"
             android:textColor="@color/white"
+            app:rd_enable="true"
+            app:rd_rippleType="wave"
             android:textSize="20sp" />
 
-        <Button
+        <com.rey.material.widget.Button
             android:id="@+id/attend_teacher_send"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -51,6 +54,8 @@
             android:background="@color/colorPrimary"
             android:text="@string/attend_teacher_send"
             android:textColor="@color/white"
+            app:rd_enable="true"
+            app:rd_rippleType="wave"
             android:textSize="20sp" />
 
     </LinearLayout>

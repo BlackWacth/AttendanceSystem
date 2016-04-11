@@ -16,6 +16,8 @@ import java.util.List;
 import qzu.com.attendance.R;
 import qzu.com.attendance.application.AApplication;
 import qzu.com.attendance.entity.Attend;
+import qzu.com.attendance.entity.AttendBody;
+import qzu.com.attendance.entity.BaseEntity;
 import qzu.com.attendance.http.subscriber.SubscriberOnNextListener;
 import qzu.com.attendance.service.BluetoothTeacherService;
 import qzu.com.attendance.ui.adapter.AttendTeacherAdapter;
@@ -24,6 +26,7 @@ import qzu.com.attendance.ui.view.MDialog;
 import qzu.com.attendance.utils.BluetoothUtils;
 import qzu.com.attendance.utils.Constants;
 import qzu.com.attendance.utils.L;
+import retrofit2.http.Body;
 
 /**
  * 考勤
@@ -34,6 +37,8 @@ public class AttendTeacherFragment extends BaseFragment implements View.OnClickL
     public static final int DEFUALT_ATTTEND_TIME = 10 * 60 * 1000;
     /**一秒执行一次 */
     public static final int DEFUALT_EXECUTE_TIME = 1000;
+
+    public static final String ATTEND_SUCCESS = "ATTEND_SUCCESS";
 
     private RecyclerView mRecyclerView;
     private Button mSend, mOpen;
@@ -50,15 +55,21 @@ public class AttendTeacherFragment extends BaseFragment implements View.OnClickL
     private String sersionId;
     private String AskType = "3";
 
+    private AttendBody body;
+    private String scheduleId;
+
     private BluetoothTeacherService mBluetoothServer;
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case Constants.MESSAGE_READ:
-                    String readMsg = msg.getData().getString(Constants.EXTRA_READ_MASSAGE);
-                    showToast(readMsg);
-                    mBluetoothServer.write("收到");
+                    synchronized (AttendTeacherFragment.class){
+                        String uid = msg.getData().getString(Constants.EXTRA_READ_MASSAGE);
+                        showToast(uid);
+                        mBluetoothServer.write(ATTEND_SUCCESS);
+                        changeCheck(uid);
+                    }
                     break;
             }
         }
@@ -72,6 +83,10 @@ public class AttendTeacherFragment extends BaseFragment implements View.OnClickL
         this.userType = userType;
         this.uid = uid;
         this.sersionId = sersionId;
+        body = new AttendBody();
+        body.setUserType(userType);
+        body.setUID(uid);
+        body.setSersionId(sersionId);
     }
 
     @Override
@@ -114,8 +129,20 @@ public class AttendTeacherFragment extends BaseFragment implements View.OnClickL
                 cancelTimer();
             }
         };
+    }
 
-        
+    /**
+     * 修改对于uid的考勤状态
+     * @param uid
+     */
+    private void changeCheck(String uid) {
+        for(Attend.ScheduleBean bean : mList) {
+            if(uid.equals(bean.getStuId())) {
+                bean.setCheck(0);
+                break;
+            }
+        }
+        mAdapter.notifyDataSetChanged();
     }
 
     private void getAttendStudent() {
@@ -123,6 +150,7 @@ public class AttendTeacherFragment extends BaseFragment implements View.OnClickL
             @Override
             public void success(Attend attend) {
                 L.i("+++++" + attend.toString());
+                scheduleId = attend.getScheduleId();
                 isHasLoadedOnce = true;
                 if(attend.getStuCount() <= 0) {
                     noStudent.setVisibility(View.VISIBLE);
@@ -161,6 +189,29 @@ public class AttendTeacherFragment extends BaseFragment implements View.OnClickL
         MDialog.showDialog(getContext(), errorText);
     }
 
+    private List<AttendBody.CheckBean> getBodyChecks() {
+        List<AttendBody.CheckBean> cheks = new ArrayList<>();
+        for(Attend.ScheduleBean bean: mList) {
+            cheks.add(new AttendBody.CheckBean(bean.getStuId(), scheduleId, bean.getCheck()));
+        }
+        return cheks;
+    }
+
+    private void submit(){
+        body.setChecks(getBodyChecks());
+        AApplication.mHttpMethod.sublime(getContext(), new SubscriberOnNextListener<BaseEntity>() {
+            @Override
+            public void success(BaseEntity baseEntity) {
+                showToast("提交成功");
+            }
+
+            @Override
+            public void error(int code) {
+                errorTip(code);
+            }
+        }, body);
+    }
+
     private void cancelTimer() {
         if(mCountDownTimer != null) {
             mCountDownTimer.cancel();
@@ -192,7 +243,7 @@ public class AttendTeacherFragment extends BaseFragment implements View.OnClickL
                 break;
 
             case R.id.attend_teacher_send:
-
+                submit();
                 break;
         }
     }
@@ -201,6 +252,10 @@ public class AttendTeacherFragment extends BaseFragment implements View.OnClickL
      * 检查蓝牙是否开启，为开启，打开蓝牙，并打开蓝牙连接服务，等待连接
      */
     private void startBluetoothService() {
+        if(!BluetoothUtils.isSupportBluetooth()) {
+            showToast("该机型不支持蓝牙");
+            return;
+        }
         if(!BluetoothUtils.isBluetoothEnabled()) {
             BluetoothUtils.openBluetooth(getActivity());
         }else {

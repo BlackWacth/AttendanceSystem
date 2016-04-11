@@ -4,7 +4,7 @@ import android.content.Context;
 import android.widget.Toast;
 
 import qzu.com.attendance.entity.BaseEntity;
-import qzu.com.attendance.http.progress.ProGressDialogHandler;
+import qzu.com.attendance.http.progress.ProgressDialogHandler;
 import qzu.com.attendance.http.progress.ProgressCancelListener;
 import qzu.com.attendance.utils.Constants;
 import qzu.com.attendance.utils.L;
@@ -18,24 +18,23 @@ public class ProgressSubscriber extends Subscriber<BaseEntity> implements Progre
     private Context mContext;
 
     private SubscriberOnNextListener<BaseEntity> mSubscriberOnNextListener;
-    private ProGressDialogHandler mProGressDialogHandler;
+    private ProgressDialogHandler mProGressDialogHandler;
 
     public ProgressSubscriber(Context mContext, SubscriberOnNextListener mSubscriberOnNextListener) {
         this.mContext = mContext;
         this.mSubscriberOnNextListener =  mSubscriberOnNextListener;
-
-        mProGressDialogHandler = new ProGressDialogHandler(mContext, true, this);
+        mProGressDialogHandler = new ProgressDialogHandler(mContext, true, this);
     }
 
     private void showProgressDialog() {
         if(mProGressDialogHandler != null) {
-            mProGressDialogHandler.obtainMessage(ProGressDialogHandler.SHOW_PROGRESS_DIALOG).sendToTarget();
+            mProGressDialogHandler.obtainMessage(ProgressDialogHandler.SHOW_PROGRESS_DIALOG).sendToTarget();
         }
     }
 
     private void dissProgressDialog(){
         if(mProGressDialogHandler != null) {
-            mProGressDialogHandler.obtainMessage(ProGressDialogHandler.DISMISS_PROGRESS_DIALOG).sendToTarget();
+            mProGressDialogHandler.obtainMessage(ProgressDialogHandler.DISMISS_PROGRESS_DIALOG).sendToTarget();
             mProGressDialogHandler = null;
         }
     }

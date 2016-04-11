@@ -104,9 +104,10 @@ public class SyllabusFragment extends BaseFragment {
                     if((week > 0 && week < 6) && (node > 0 && node < 6)) {
                         L.i("week = " +  week + "  node = " + node);
                         int index = calculateIndexInRecycler(week, node);
-                        mData[index] = new SyllabusCourse(DEFUALT_CONTENT, bean, SyllabusCourse.ITEM_TYPE.ITEM_TYPE_CARD.ordinal(), getRandomColor());    
+                        mData[index] = new SyllabusCourse(DEFUALT_CONTENT, bean, SyllabusCourse.ITEM_TYPE.ITEM_TYPE_CARD.ordinal(), getRandomColor());
                     }
                 }
+                mAdapter.notifyDataSetChanged();
             }
 
             @Override

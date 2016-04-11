@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:padding="16dp"
     tools:context=".ui.fragment.AttendStudentFragment">
 
@@ -105,7 +106,7 @@
         android:textStyle="bold"
         android:visibility="gone"/>
     
-    <Button
+    <com.rey.material.widget.Button
         android:id="@+id/attend_student_status"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -115,6 +116,8 @@
         android:text="@string/attend_student_status"
         android:textColor="@color/white"
         android:textSize="20sp"
+        app:rd_enable="true"
+        app:rd_rippleType="wave"
         android:textStyle="bold" />
 
 </RelativeLayout>

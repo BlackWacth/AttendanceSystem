@@ -1,40 +1,54 @@
 package qzu.com.attendance.http.progress;
 
-import android.app.ProgressDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Handler;
 import android.os.Message;
+import android.widget.TextView;
+
+import qzu.com.attendance.R;
 
 /**
- * Created by ZHONG WEI  HUA on 2016/3/23.
+ * 进度条
  */
-public class ProGressDialogHandler extends Handler{
+public class ProgressDialogHandler extends Handler{
 
     public static final int SHOW_PROGRESS_DIALOG = 1;
     public static final int DISMISS_PROGRESS_DIALOG = 2;
 
-    private ProgressDialog mProgressDialog;
+    private Dialog mProgressDialog;
 
     private Context mContext;
     private boolean mCancelable;
     private ProgressCancelListener mProgressCancelListener;
 
-    public ProGressDialogHandler(Context mContext, boolean mCancelable, ProgressCancelListener mProgressCancelListener) {
+    public ProgressDialogHandler(Context mContext, boolean mCancelable, ProgressCancelListener mProgressCancelListener) {
         this.mContext = mContext;
         this.mCancelable = mCancelable;
         this.mProgressCancelListener = mProgressCancelListener;
     }
 
+    public ProgressDialogHandler(Context mContext, boolean mCancelable) {
+        this.mContext = mContext;
+        this.mCancelable = mCancelable;
+    }
+
     private void initProgressDialog() {
         if(mProgressDialog == null) {
-            mProgressDialog = new ProgressDialog(mContext);
+            mProgressDialog = new Dialog(mContext);
             mProgressDialog.setCancelable(mCancelable);
-
+            mProgressDialog.setContentView(R.layout.progress_dialog);
+            mProgressDialog.getWindow().setBackgroundDrawableResource(R.drawable.progress_dialog_shape);
+            TextView msg = (TextView) mProgressDialog.findViewById(R.id.progress_msg);
+            msg.setText("卖力加载中……");
             if(mCancelable) {
                 mProgressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
                     @Override
                     public void onCancel(DialogInterface dialog) {
+                        if(mProgressCancelListener == null) {
+                            return ;
+                        }
                         mProgressCancelListener.onCancelProgress();
                     }
                 });

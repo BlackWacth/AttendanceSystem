@@ -10,6 +10,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Response;
 import qzu.com.attendance.application.AApplication;
 import qzu.com.attendance.entity.Attend;
+import qzu.com.attendance.entity.AttendBody;
 import qzu.com.attendance.entity.BaseEntity;
 import qzu.com.attendance.entity.Teacher;
 import qzu.com.attendance.http.api.AskApi;
@@ -17,6 +18,7 @@ import qzu.com.attendance.http.api.AttendApi;
 import qzu.com.attendance.http.api.CourseApi;
 import qzu.com.attendance.http.api.LoginApi;
 import qzu.com.attendance.http.api.PersionalApi;
+import qzu.com.attendance.http.api.SubmitAttendApi;
 import qzu.com.attendance.http.api.SyllabusApi;
 import qzu.com.attendance.http.subscriber.ProgressSubscriber;
 import qzu.com.attendance.http.subscriber.SubscriberOnNextListener;
@@ -45,6 +47,7 @@ public class HttpMethod {
     private AttendApi mAttendApi;
     private PersionalApi mPersionalApi;
     private AskApi mAskApi;
+    private SubmitAttendApi mSubmitAttendApi;
     
     private HttpMethod() {
         OkHttpClient client = new OkHttpClient.Builder()
@@ -74,6 +77,7 @@ public class HttpMethod {
         mAttendApi = mRetrofit.create(AttendApi.class);
         mPersionalApi = mRetrofit.create(PersionalApi.class);
         mAskApi = mRetrofit.create(AskApi.class);
+        mSubmitAttendApi = mRetrofit.create(SubmitAttendApi.class);
     }
 
     private static class HttpMethodHolder {
@@ -171,5 +175,15 @@ public class HttpMethod {
      */
     public void ask(Context context, SubscriberOnNextListener listener, String userType, String uid, String sersionId, String askType) {
         processObservalbe(mAskApi.ask(userType, uid, sersionId, askType)).subscribe(new ProgressSubscriber(context, listener));
+    }
+
+    /**
+     * 考勤数据提交
+     * @param context
+     * @param listener
+     * @param body
+     */
+    public void sublime(Context context, SubscriberOnNextListener listener, AttendBody body) {
+        processObservalbe(mSubmitAttendApi.submit(body)).subscribe(new ProgressSubscriber(context, listener));
     }
 }

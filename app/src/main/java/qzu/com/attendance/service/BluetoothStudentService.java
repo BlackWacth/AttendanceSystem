@@ -5,6 +5,7 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.os.Handler;
 
+import qzu.com.attendance.utils.Constants;
 import qzu.com.attendance.utils.L;
 
 
@@ -24,8 +25,14 @@ public class BluetoothStudentService extends BluetoothServer{
         cancelConnectedThread();
         mConnectedThread = new ConnectedThread(socket, socketType);
         mConnectedThread.start();
+        sendMsg(Constants.MESSAGE_STATE_CHANGE, Constants.EXTRA_BLUETOOTH_STATE, STATE_CONNECTED);
         L.i("蓝牙连接成功");
-        String str = "可以开始通信了";
-        mConnectedThread.write(str.getBytes());
+    }
+
+    @Override
+    public void stop() {
+        cancelConnectThread();
+        cancelConnectedThread();
+        setState(STATE_NONE);
     }
 }

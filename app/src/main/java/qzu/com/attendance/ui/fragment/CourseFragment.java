@@ -3,6 +3,7 @@ package qzu.com.attendance.ui.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +22,7 @@ import qzu.com.attendance.utils.Utils;
 /**
  * 课程
  */
-public class CourseFragment extends BaseFragment {
+public class CourseFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
 
     private TextView mCourseName;
     private TextView mCourseAddress;
@@ -32,6 +33,7 @@ public class CourseFragment extends BaseFragment {
     private TextView mCoursePhone;
     private TextView mNoCourse;
     private LinearLayout mHaveCourse;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
     
     private String userType;
     private String uid;
@@ -56,6 +58,12 @@ public class CourseFragment extends BaseFragment {
 
     @Override
     protected void initView(View view) {
+        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.course_swipe_refresh_layout);
+
+//        mSwipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.blue500), getResources().getColor(R.color.cyan500), getResources().getColor(R.color.green500));
+        mSwipeRefreshLayout.setColorSchemeColors(R.color.blue500, R.color.cyan500, R.color.green500);
+        mSwipeRefreshLayout.setOnRefreshListener(this);
+
         mCourseName = (TextView) view.findViewById(R.id.course_name);
         mCourseAddress = (TextView) view.findViewById(R.id.course_address);
         mCourseTime = (TextView) view.findViewById(R.id.course_time);
@@ -86,6 +94,7 @@ public class CourseFragment extends BaseFragment {
             public void success(Course course) {
                 L.i(course.toString());
                 isHasLoadedOnce = true;
+                mSwipeRefreshLayout.setRefreshing(false);
                 if(course.isExist()) {
                     mHaveCourse.setVisibility(View.VISIBLE);
                     mNoCourse.setVisibility(View.GONE);
@@ -128,5 +137,20 @@ public class CourseFragment extends BaseFragment {
                 break;
         }
         MDialog.showDialog(getContext(), errorText);
+    }
+
+    @Override
+    public void onRefresh() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(5 * 1000);
+//                    getCourse();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
     }
 }

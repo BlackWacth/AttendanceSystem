@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +37,8 @@ public class DetailActivity extends BaseActivity {
     ViewPager mViewPager;
 
     private PagerAdapter mPagerAdapter;
+
+    private long exitTime = 0;
 
     private List<PagerAdapter.FragmentModel> mModels;
 
@@ -135,5 +138,19 @@ public class DetailActivity extends BaseActivity {
         for(PagerAdapter.FragmentModel model : mModels) {
             model.getFragment().onActivityResult(requestCode, resultCode, data);
         }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+            if ((System.currentTimeMillis() - exitTime) > 2000) {
+                showToast("再按一次退出程序");
+                exitTime = System.currentTimeMillis();
+            } else {
+                this.finish();
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }
