@@ -11,7 +11,7 @@ import qzu.com.attendance.utils.L;
 import rx.Subscriber;
 
 /**
- * Created by ZHONG WEI  HUA on 2016/3/23.
+ *
  */
 public class ProgressSubscriber extends Subscriber<BaseEntity> implements ProgressCancelListener {
 

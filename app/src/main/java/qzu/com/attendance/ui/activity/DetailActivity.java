@@ -6,11 +6,18 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
+import android.view.View;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import in.srain.cube.views.ptr.PtrClassicFrameLayout;
+import in.srain.cube.views.ptr.PtrDefaultHandler;
+import in.srain.cube.views.ptr.PtrFrameLayout;
+import in.srain.cube.views.ptr.PtrHandler;
+import in.srain.cube.views.ptr.header.StoreHouseHeader;
+import in.srain.cube.views.ptr.util.PtrLocalDisplay;
 import qzu.com.attendance.R;
 import qzu.com.attendance.application.AApplication;
 import qzu.com.attendance.entity.BaseEntity;
@@ -30,13 +37,14 @@ import qzu.com.attendance.utils.L;
 
 public class DetailActivity extends BaseActivity {
 
-    Toolbar mToolbar;
-
-    TabLayout mTabLayout;
-
-    ViewPager mViewPager;
+    private Toolbar mToolbar;
+    private TabLayout mTabLayout;
+    private ViewPager mViewPager;
+    private PtrFrameLayout mPtrFrameLayout;
 
     private PagerAdapter mPagerAdapter;
+    private StoreHouseHeader header;
+
 
     private long exitTime = 0;
 
@@ -59,6 +67,7 @@ public class DetailActivity extends BaseActivity {
         mToolbar = (Toolbar) findViewById(R.id.detail_tool_bar);
         mTabLayout = (TabLayout) findViewById(R.id.detail_tab_layout);
         mViewPager = (ViewPager) findViewById(R.id.detail_view_pager);
+        mPtrFrameLayout = (PtrFrameLayout) findViewById(R.id.detail_ptr_frame_layout);
         setSupportActionBar(mToolbar);
     }
 
@@ -93,6 +102,18 @@ public class DetailActivity extends BaseActivity {
             mModels.add(new PagerAdapter.FragmentModel(info, infoFragemnt));
         }
         initViewPager();
+        mPtrFrameLayout.disableWhenHorizontalMove(true);
+        mPtrFrameLayout.setPtrHandler(new PtrHandler() {
+            @Override
+            public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
+                return mPagerAdapter.checkCanDoRefresh(mViewPager.getCurrentItem());
+            }
+
+            @Override
+            public void onRefreshBegin(PtrFrameLayout frame) {
+                mPagerAdapter.update(mViewPager.getCurrentItem(), frame);
+            }
+        });
     }
 
     /**
@@ -114,9 +135,6 @@ public class DetailActivity extends BaseActivity {
             uid = student.getUID();
             sersionId = student.getSersionId();
         }
-        L.i("userType : " + userType);
-        L.i("uid : " + uid);
-        L.i("sersionId : " + sersionId);
     }
 
     private void initViewPager() {

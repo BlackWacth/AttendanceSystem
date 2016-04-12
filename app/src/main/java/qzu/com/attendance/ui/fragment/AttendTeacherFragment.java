@@ -13,6 +13,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import in.srain.cube.views.ptr.PtrFrameLayout;
 import qzu.com.attendance.R;
 import qzu.com.attendance.application.AApplication;
 import qzu.com.attendance.entity.Attend;
@@ -170,6 +171,16 @@ public class AttendTeacherFragment extends BaseFragment implements View.OnClickL
     @Override
     protected void lazyLoad() {
         getAttendStudent();
+    }
+
+    @Override
+    public boolean checkCanDoRefresh() {
+        return false;
+    }
+
+    @Override
+    public void update(PtrFrameLayout frame) {
+
     }
 
     private void errorTip(int code){

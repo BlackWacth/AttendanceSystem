@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import in.srain.cube.views.ptr.PtrFrameLayout;
 import qzu.com.attendance.R;
 import qzu.com.attendance.application.AApplication;
 import qzu.com.attendance.entity.Course;
@@ -130,7 +131,7 @@ public class AttendStudentFragment extends BaseFragment implements View.OnClickL
         mBluetoothServer = new BluetoothStudentService(mHandler);
     }
 
-    private void getCourse() {
+    private void getCourse(boolean isRefresh, final PtrFrameLayout frame) {
         AApplication.mHttpMethod.getCourse(getActivity(), new SubscriberOnNextListener<Course>() {
             @Override
             public void success(Course course) {
@@ -157,12 +158,22 @@ public class AttendStudentFragment extends BaseFragment implements View.OnClickL
             public void error(int code) {
                 errorTip(code);
             }
-        },userType, uid, sersionId, AskType);
+        },userType, uid, sersionId, AskType, isRefresh, frame);
     }
 
     @Override
     protected void lazyLoad() {
-        getCourse();
+        getCourse(false, null);
+    }
+
+    @Override
+    public boolean checkCanDoRefresh() {
+        return true;
+    }
+
+    @Override
+    public void update(PtrFrameLayout frame) {
+        getCourse(true, frame);
     }
 
     private void errorTip(int code){

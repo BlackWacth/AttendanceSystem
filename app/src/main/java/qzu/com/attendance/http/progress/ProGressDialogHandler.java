@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Handler;
 import android.os.Message;
+import android.view.WindowManager;
 import android.widget.TextView;
 
 import qzu.com.attendance.R;
@@ -39,6 +40,10 @@ public class ProgressDialogHandler extends Handler{
             mProgressDialog = new Dialog(mContext);
             mProgressDialog.setCancelable(mCancelable);
             mProgressDialog.setContentView(R.layout.progress_dialog);
+            WindowManager.LayoutParams params = mProgressDialog.getWindow().getAttributes();
+            params.width = 500;
+//            params.height = 500;
+            mProgressDialog.getWindow().setAttributes(params);
             mProgressDialog.getWindow().setBackgroundDrawableResource(R.drawable.progress_dialog_shape);
             TextView msg = (TextView) mProgressDialog.findViewById(R.id.progress_msg);
             msg.setText("卖力加载中……");

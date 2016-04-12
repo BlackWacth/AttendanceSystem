@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 
 import java.util.List;
 
+import in.srain.cube.views.ptr.PtrFrameLayout;
 import qzu.com.attendance.ui.base.BaseFragment;
 
 /**
@@ -37,6 +38,18 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
     @Override
     public CharSequence getPageTitle(int position) {
         return mList.get(position).getTitle();
+    }
+
+    public boolean checkCanDoRefresh(int position) {
+        return getCurrentFragment(position).checkCanDoRefresh();
+    }
+
+    private BaseFragment getCurrentFragment(int position) {
+        return (BaseFragment) getItem(position);
+    }
+
+    public void update(int position, PtrFrameLayout frame){
+        getCurrentFragment(position).update(frame);
     }
 
     public static class FragmentModel {

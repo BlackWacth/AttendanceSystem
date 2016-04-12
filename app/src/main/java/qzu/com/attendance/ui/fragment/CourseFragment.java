@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import in.srain.cube.views.ptr.PtrFrameLayout;
+import in.srain.cube.views.ptr.PtrHandler;
 import qzu.com.attendance.R;
 import qzu.com.attendance.application.AApplication;
 import qzu.com.attendance.entity.Course;
@@ -22,7 +24,7 @@ import qzu.com.attendance.utils.Utils;
 /**
  * 课程
  */
-public class CourseFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
+public class CourseFragment extends BaseFragment {
 
     private TextView mCourseName;
     private TextView mCourseAddress;
@@ -33,8 +35,7 @@ public class CourseFragment extends BaseFragment implements SwipeRefreshLayout.O
     private TextView mCoursePhone;
     private TextView mNoCourse;
     private LinearLayout mHaveCourse;
-    private SwipeRefreshLayout mSwipeRefreshLayout;
-    
+
     private String userType;
     private String uid;
     private String sersionId;
@@ -58,12 +59,6 @@ public class CourseFragment extends BaseFragment implements SwipeRefreshLayout.O
 
     @Override
     protected void initView(View view) {
-        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.course_swipe_refresh_layout);
-
-//        mSwipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.blue500), getResources().getColor(R.color.cyan500), getResources().getColor(R.color.green500));
-        mSwipeRefreshLayout.setColorSchemeColors(R.color.blue500, R.color.cyan500, R.color.green500);
-        mSwipeRefreshLayout.setOnRefreshListener(this);
-
         mCourseName = (TextView) view.findViewById(R.id.course_name);
         mCourseAddress = (TextView) view.findViewById(R.id.course_address);
         mCourseTime = (TextView) view.findViewById(R.id.course_time);
@@ -88,13 +83,12 @@ public class CourseFragment extends BaseFragment implements SwipeRefreshLayout.O
         
     }
 
-    private void getCourse() {
+    private void getCourse(boolean isRefresh, final PtrFrameLayout frame) {
         AApplication.mHttpMethod.getCourse(getActivity(), new SubscriberOnNextListener<Course>() {
             @Override
             public void success(Course course) {
                 L.i(course.toString());
                 isHasLoadedOnce = true;
-                mSwipeRefreshLayout.setRefreshing(false);
                 if(course.isExist()) {
                     mHaveCourse.setVisibility(View.VISIBLE);
                     mNoCourse.setVisibility(View.GONE);
@@ -112,14 +106,27 @@ public class CourseFragment extends BaseFragment implements SwipeRefreshLayout.O
 
             @Override
             public void error(int code) {
+                if(frame != null) {
+                    frame.refreshComplete();
+                }
                 errorTip(code);
             }
-        },userType, uid, sersionId, AskType);
+        },userType, uid, sersionId, AskType, isRefresh, frame);
     }
 
     @Override
     protected void lazyLoad() {
-        getCourse();
+        getCourse(false, null);
+    }
+
+    @Override
+    public boolean checkCanDoRefresh() {
+        return true;
+    }
+
+    @Override
+    public void update(PtrFrameLayout frame) {
+        getCourse(true, frame);
     }
 
     private void errorTip(int code){
@@ -139,18 +146,4 @@ public class CourseFragment extends BaseFragment implements SwipeRefreshLayout.O
         MDialog.showDialog(getContext(), errorText);
     }
 
-    @Override
-    public void onRefresh() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Thread.sleep(5 * 1000);
-//                    getCourse();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        }).start();
-    }
 }

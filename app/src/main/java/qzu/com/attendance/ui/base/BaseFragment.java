@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import in.srain.cube.views.ptr.PtrFrameLayout;
+
 public abstract class BaseFragment extends Fragment {
     
     private View contentView;
@@ -88,4 +90,8 @@ public abstract class BaseFragment extends Fragment {
      * 延迟加载
      */
     protected abstract void lazyLoad();
+
+    public abstract boolean checkCanDoRefresh();
+
+    public abstract void update(PtrFrameLayout frame);
 }

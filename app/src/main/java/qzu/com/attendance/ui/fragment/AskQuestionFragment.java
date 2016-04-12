@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import in.srain.cube.views.ptr.PtrFrameLayout;
 import qzu.com.attendance.R;
 import qzu.com.attendance.application.AApplication;
 import qzu.com.attendance.entity.Student;
@@ -75,6 +76,16 @@ public class AskQuestionFragment extends BaseFragment implements View.OnClickLis
     @Override
     protected void lazyLoad() {
         
+    }
+
+    @Override
+    public boolean checkCanDoRefresh() {
+        return false;
+    }
+
+    @Override
+    public void update(PtrFrameLayout frame) {
+
     }
 
     private void errorTip(int code){

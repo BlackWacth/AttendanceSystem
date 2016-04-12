@@ -7,6 +7,7 @@ import android.view.View;
 import java.util.Random;
 
 
+import in.srain.cube.views.ptr.PtrFrameLayout;
 import qzu.com.attendance.R;
 import qzu.com.attendance.application.AApplication;
 import qzu.com.attendance.entity.Syllabus;
@@ -77,6 +78,16 @@ public class SyllabusFragment extends BaseFragment {
     @Override
     protected void lazyLoad() {
         getSysllabusData();
+    }
+
+    @Override
+    public boolean checkCanDoRefresh() {
+        return false;
+    }
+
+    @Override
+    public void update(PtrFrameLayout frame) {
+
     }
 
     @Override

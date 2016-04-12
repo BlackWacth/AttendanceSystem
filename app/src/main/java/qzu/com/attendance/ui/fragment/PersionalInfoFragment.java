@@ -2,6 +2,7 @@ package qzu.com.attendance.ui.fragment;
 
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.support.design.widget.TextInputEditText;
 import android.text.TextUtils;
 import android.view.View;
@@ -10,7 +11,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.google.gson.annotations.Until;
 
+import java.util.concurrent.ExecutionException;
+
+import in.srain.cube.views.ptr.PtrFrameLayout;
 import qzu.com.attendance.R;
 import qzu.com.attendance.application.AApplication;
 import qzu.com.attendance.entity.BaseEntity;
@@ -19,6 +24,10 @@ import qzu.com.attendance.http.subscriber.SubscriberOnNextListener;
 import qzu.com.attendance.ui.activity.MainActivity;
 import qzu.com.attendance.ui.base.BaseFragment;
 import qzu.com.attendance.utils.Utils;
+import rx.Observable;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * 提问或个人信息
@@ -77,9 +86,20 @@ public class PersionalInfoFragment extends BaseFragment implements View.OnClickL
             mStudentId.setText(mStudent.getUID());
             mStudentClass.setText(mStudent.getClassX());
             mStudentPhone.setText(mStudent.getPhone());
-            Utils.loadImage(this, mStudent.getPhoto(), mStudentIcon);
+//            Utils.loadImage(this, mStudent.getPhoto(), mStudentIcon);
+            Utils.loadImageRx(this, mStudent.getPhoto(), mStudentIcon);
             isHasLoadedOnce = true;
         }
+    }
+
+    @Override
+    public boolean checkCanDoRefresh() {
+        return false;
+    }
+
+    @Override
+    public void update(PtrFrameLayout frame) {
+
     }
 
     private void changeInfo(){

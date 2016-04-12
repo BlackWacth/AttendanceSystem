@@ -5,6 +5,7 @@ import android.content.Context;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
+import in.srain.cube.views.ptr.PtrFrameLayout;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Response;
@@ -21,6 +22,7 @@ import qzu.com.attendance.http.api.PersionalApi;
 import qzu.com.attendance.http.api.SubmitAttendApi;
 import qzu.com.attendance.http.api.SyllabusApi;
 import qzu.com.attendance.http.subscriber.ProgressSubscriber;
+import qzu.com.attendance.http.subscriber.RefreshSubscriber;
 import qzu.com.attendance.http.subscriber.SubscriberOnNextListener;
 import qzu.com.attendance.utils.Constants;
 import qzu.com.attendance.utils.L;
@@ -133,8 +135,12 @@ public class HttpMethod {
      * @param sersionId
      * @param askType
      */
-    public void getCourse(Context context, SubscriberOnNextListener listener, String userType, String uid, String sersionId, String askType) {
-        processObservalbe(mCourseApi.getCourse(userType, uid, sersionId, askType)).subscribe(new ProgressSubscriber(context, listener));
+    public void getCourse(Context context, SubscriberOnNextListener listener, String userType, String uid, String sersionId, String askType, boolean isRefresh, PtrFrameLayout frame) {
+        if(isRefresh) {
+            processObservalbe(mCourseApi.getCourse(userType, uid, sersionId, askType)).subscribe(new RefreshSubscriber(context, listener, frame));
+        }else {
+            processObservalbe(mCourseApi.getCourse(userType, uid, sersionId, askType)).subscribe(new ProgressSubscriber(context, listener));
+        }
     }
 
     /**
