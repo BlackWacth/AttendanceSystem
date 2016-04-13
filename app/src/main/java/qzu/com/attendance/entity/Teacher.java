@@ -1,5 +1,8 @@
 package qzu.com.attendance.entity;
 
+/**
+ * 教师
+ */
 public class Teacher extends BaseEntity{
     
     private String userType;

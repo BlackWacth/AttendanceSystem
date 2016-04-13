@@ -7,7 +7,7 @@ import retrofit2.http.POST;
 import rx.Observable;
 
 /**
- * Created by ZHONG WEI  HUA on 2016/4/11.
+ * 考勤提交接口
  */
 public interface SubmitAttendApi {
 

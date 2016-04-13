@@ -3,7 +3,7 @@ package qzu.com.attendance.entity;
 import android.bluetooth.BluetoothDevice;
 
 /**
- * Created by Mr Hua on 2015/11/13 0013.
+ * 蓝牙
  */
 public class Device {
 

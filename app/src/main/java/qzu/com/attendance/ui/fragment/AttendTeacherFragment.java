@@ -27,12 +27,14 @@ import qzu.com.attendance.ui.view.MDialog;
 import qzu.com.attendance.utils.BluetoothUtils;
 import qzu.com.attendance.utils.Constants;
 import qzu.com.attendance.utils.L;
+import qzu.com.attendance.utils.ViewClick;
 import retrofit2.http.Body;
+import rx.functions.Action1;
 
 /**
- * 考勤
+ * 老师考勤
  */
-public class AttendTeacherFragment extends BaseFragment implements View.OnClickListener{
+public class AttendTeacherFragment extends BaseFragment{
 
     /**默认签到时间10分钟 */
     public static final int DEFUALT_ATTTEND_TIME = 10 * 60 * 1000;
@@ -104,8 +106,6 @@ public class AttendTeacherFragment extends BaseFragment implements View.OnClickL
         noStudent.setVisibility(View.GONE);
         
         openBtnContent = getResouseString(R.string.attend_teacher_open_bluetooth);
-        mSend.setOnClickListener(this);
-        mOpen.setOnClickListener(this);
     }
     
     @Override
@@ -130,6 +130,20 @@ public class AttendTeacherFragment extends BaseFragment implements View.OnClickL
                 cancelTimer();
             }
         };
+
+        ViewClick.preventShake(mOpen, new Action1<Void>() {
+            @Override
+            public void call(Void aVoid) {
+                startBluetoothService();
+            }
+        });
+
+        ViewClick.preventShake(mSend, new Action1<Void>() {
+            @Override
+            public void call(Void aVoid) {
+                submit();
+            }
+        });
     }
 
     /**
@@ -176,11 +190,6 @@ public class AttendTeacherFragment extends BaseFragment implements View.OnClickL
     @Override
     public boolean checkCanDoRefresh() {
         return false;
-    }
-
-    @Override
-    public void update(PtrFrameLayout frame) {
-
     }
 
     private void errorTip(int code){
@@ -244,19 +253,6 @@ public class AttendTeacherFragment extends BaseFragment implements View.OnClickL
     public void onResume() {
         super.onResume();
         initRecyclerView();
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.attend_teacher_open_bluetooth:
-                startBluetoothService();
-                break;
-
-            case R.id.attend_teacher_send:
-                submit();
-                break;
-        }
     }
 
     /**

@@ -17,11 +17,13 @@ import qzu.com.attendance.ui.base.BaseFragment;
 import qzu.com.attendance.ui.view.MDialog;
 import qzu.com.attendance.utils.L;
 import qzu.com.attendance.utils.Utils;
+import qzu.com.attendance.utils.ViewClick;
+import rx.functions.Action1;
 
 /**
- * 提问或个人信息
+ * 随机抽问
  */
-public class AskQuestionFragment extends BaseFragment implements View.OnClickListener{
+public class AskQuestionFragment extends BaseFragment{
 
     private String userType;
     private String uid;
@@ -56,7 +58,6 @@ public class AskQuestionFragment extends BaseFragment implements View.OnClickLis
     @Override
     protected void initView(View view) {
         askBtn = (Button) view.findViewById(R.id.ask_question_btn);
-        askBtn.setOnClickListener(this);
         mStudentIcon = (ImageView) view.findViewById(R.id.ask_icon);
         mStudentName = (TextView) view.findViewById(R.id.ask_student_name);
         mStudentSex = (TextView) view.findViewById(R.id.ask_student_sex);
@@ -71,6 +72,13 @@ public class AskQuestionFragment extends BaseFragment implements View.OnClickLis
     protected void initData() {
         contentLayout.setVisibility(View.GONE);
         noCourse.setVisibility(View.GONE);
+
+        ViewClick.preventShake(askBtn, new Action1<Void>() {
+            @Override
+            public void call(Void aVoid) {
+                getStudent();
+            }
+        });
     }
 
     @Override
@@ -81,11 +89,6 @@ public class AskQuestionFragment extends BaseFragment implements View.OnClickLis
     @Override
     public boolean checkCanDoRefresh() {
         return false;
-    }
-
-    @Override
-    public void update(PtrFrameLayout frame) {
-
     }
 
     private void errorTip(int code){
@@ -105,6 +108,9 @@ public class AskQuestionFragment extends BaseFragment implements View.OnClickLis
         MDialog.showDialog(getContext(), errorText);
     }
 
+    /**
+     * 网络获取学生信息
+     */
     private void getStudent(){
         AApplication.mHttpMethod.ask(getActivity(), new SubscriberOnNextListener<Student>() {
             @Override
@@ -131,10 +137,5 @@ public class AskQuestionFragment extends BaseFragment implements View.OnClickLis
                 errorTip(code);
             }
         },userType, uid, sersionId, AskType);
-    }
-    
-    @Override
-    public void onClick(View v) {
-        getStudent();
     }
 }

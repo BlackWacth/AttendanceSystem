@@ -35,6 +35,9 @@ import qzu.com.attendance.ui.fragment.SyllabusFragment;
 import qzu.com.attendance.utils.Constants;
 import qzu.com.attendance.utils.L;
 
+/**
+ * 信息现在主界面
+ */
 public class DetailActivity extends BaseActivity {
 
     private Toolbar mToolbar;

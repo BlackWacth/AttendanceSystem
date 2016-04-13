@@ -6,7 +6,7 @@ import android.bluetooth.BluetoothSocket;
 import android.os.Handler;
 
 /**
- * Created by ZHONG WEI  HUA on 2016/4/6.
+ * 老师端
  */
 public class BluetoothTeacherService extends BluetoothServer{
 

@@ -6,7 +6,7 @@ import retrofit2.http.Query;
 import rx.Observable;
 
 /**
- * Created by HUA_ZHONG_WEI on 2016/4/10.
+ * 提问接口
  */
 public interface AskApi {
     

@@ -6,7 +6,7 @@ import android.support.v7.app.AlertDialog;
 
 
 /**
- * Created by HUA_ZHONG_WEI on 2016/4/9.
+ * 对话框
  */
 public class MDialog {
 

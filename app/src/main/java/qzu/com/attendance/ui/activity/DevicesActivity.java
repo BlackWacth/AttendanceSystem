@@ -27,6 +27,9 @@ import qzu.com.attendance.utils.BluetoothUtils;
 import qzu.com.attendance.utils.Constants;
 import qzu.com.attendance.utils.L;
 
+/**
+ * 蓝牙搜索界面
+ */
 public class DevicesActivity extends BaseActivity {
 
     private SwipeRefreshLayout mSwipeRefreshLayout;

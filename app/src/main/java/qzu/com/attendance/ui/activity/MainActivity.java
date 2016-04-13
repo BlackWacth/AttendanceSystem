@@ -3,36 +3,25 @@ package qzu.com.attendance.ui.activity;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.view.View;
 import android.widget.Button;
 import android.widget.RadioGroup;
-import android.widget.Switch;
 
-import com.google.gson.Gson;
-
-import java.io.IOException;
-
-import okhttp3.RequestBody;
-import okhttp3.ResponseBody;
 import qzu.com.attendance.R;
 import qzu.com.attendance.application.AApplication;
-import qzu.com.attendance.entity.BaseEntity;
 import qzu.com.attendance.entity.Student;
 import qzu.com.attendance.entity.Teacher;
-import qzu.com.attendance.http.HttpMethod;
-import qzu.com.attendance.http.api.LoginApi;
 import qzu.com.attendance.http.subscriber.ProgressSubscriber;
 import qzu.com.attendance.http.subscriber.SubscriberOnNextListener;
 import qzu.com.attendance.ui.base.BaseActivity;
 import qzu.com.attendance.ui.view.MDialog;
 import qzu.com.attendance.utils.L;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import rx.Subscriber;
+import qzu.com.attendance.utils.ViewClick;
+import rx.functions.Action1;
 
-public class MainActivity extends BaseActivity implements View.OnClickListener{
+/**
+ * 登录界面
+ */
+public class MainActivity extends BaseActivity{
     
     private TextInputEditText mUserName;
 
@@ -56,13 +45,17 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         mPassword = (TextInputEditText) findViewById(R.id.password);
         mRadioGroup = (RadioGroup) findViewById(R.id.type_radio_group);
         mLogin = (Button) findViewById(R.id.login);
-        mLogin.setOnClickListener(this);
         setSupportActionBar(mToolbar);
     }
 
     @Override
     protected void initData() {
-        
+        ViewClick.preventShake(mLogin, new Action1<Void>() {
+            @Override
+            public void call(Void aVoid) {
+                login();
+            }
+        });
     }
 
     private void login(){
@@ -141,13 +134,4 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         MDialog.showDialog(this, errorText);
     }
     
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.login:
-                login();
-                break;
-        }
-    }
 }

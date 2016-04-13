@@ -8,7 +8,7 @@ import qzu.com.attendance.utils.Constants;
 import rx.Subscriber;
 
 /**
- *
+ *下拉刷新的Subscriber，统一处理了onCompleted和onError方法
  */
 public class RefreshSubscriber extends Subscriber<BaseEntity> {
 

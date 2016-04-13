@@ -18,6 +18,9 @@ import qzu.com.attendance.utils.BluetoothUtils;
 import qzu.com.attendance.utils.L;
 
 
+/**
+ * 蓝牙收索列表适配器
+ */
 public class BluetoothDevicesAdapter extends BaseAdapter implements PinnedSectionListView.PinnedSectionListAdapter{
 
     private static final int[] COLORS = new int[] {R.color.amber500, R.color.blue500};

@@ -86,11 +86,6 @@ public class SyllabusFragment extends BaseFragment {
     }
 
     @Override
-    public void update(PtrFrameLayout frame) {
-
-    }
-
-    @Override
     public void onStart() {
         super.onStart();
     }
@@ -185,6 +180,10 @@ public class SyllabusFragment extends BaseFragment {
 
     }
 
+    /**
+     * 随机获取一种颜色
+     * @return
+     */
     private int getRandomColor() {
         int index = mRandom.nextInt(BACKGROUND_COLOR.length);
         return BACKGROUND_COLOR[index];

@@ -18,6 +18,9 @@ import qzu.com.attendance.R;
 import qzu.com.attendance.entity.Attend;
 import qzu.com.attendance.utils.Utils;
 
+/**
+ * 老师考勤界面列表适配器
+ */
 public class AttendTeacherAdapter extends RecyclerView.Adapter<AttendTeacherAdapter.AttendTeacherHolder>{
 
     private Context mContext;

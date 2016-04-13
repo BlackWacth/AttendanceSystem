@@ -36,6 +36,9 @@ import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
+/**
+ * 所有网络接口管理类
+ */
 public class HttpMethod {
     public static final String BASE_URL = "http://ccide.iego.cn/twins/phone/";
     public static final int DEFUALT_CONNECT_TIMEOUT = 30;

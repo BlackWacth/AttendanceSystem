@@ -24,15 +24,17 @@ import qzu.com.attendance.http.subscriber.SubscriberOnNextListener;
 import qzu.com.attendance.ui.activity.MainActivity;
 import qzu.com.attendance.ui.base.BaseFragment;
 import qzu.com.attendance.utils.Utils;
+import qzu.com.attendance.utils.ViewClick;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
 /**
- * 提问或个人信息
+ * 个人信息
  */
-public class PersionalInfoFragment extends BaseFragment implements View.OnClickListener{
+public class PersionalInfoFragment extends BaseFragment{
     
     private Student mStudent;
 
@@ -70,12 +72,16 @@ public class PersionalInfoFragment extends BaseFragment implements View.OnClickL
         mStudentPhone = (TextInputEditText) view.findViewById(R.id.persional_new_phone);
         mNewPassword = (TextInputEditText) view.findViewById(R.id.persional_new_password);
         mChange = (Button) view.findViewById(R.id.persional_info_change);
-        mChange.setOnClickListener(this);
     }
 
     @Override
     protected void initData() {
-        
+        ViewClick.preventShake(mChange, new Action1<Void>() {
+            @Override
+            public void call(Void aVoid) {
+                changeInfo();
+            }
+        });
     }
 
     @Override
@@ -86,7 +92,6 @@ public class PersionalInfoFragment extends BaseFragment implements View.OnClickL
             mStudentId.setText(mStudent.getUID());
             mStudentClass.setText(mStudent.getClassX());
             mStudentPhone.setText(mStudent.getPhone());
-//            Utils.loadImage(this, mStudent.getPhoto(), mStudentIcon);
             Utils.loadImageRx(this, mStudent.getPhoto(), mStudentIcon);
             isHasLoadedOnce = true;
         }
@@ -97,26 +102,27 @@ public class PersionalInfoFragment extends BaseFragment implements View.OnClickL
         return false;
     }
 
-    @Override
-    public void update(PtrFrameLayout frame) {
-
-    }
-
+    /**
+     * 提交修改信息，如果修改了密码，就退出，用户重新登录
+     */
     private void changeInfo(){
-        String newPhone = mStudentPhone.getText().toString();
-        if(TextUtils.isEmpty(newPhone)) {
-            newPhone = mStudent.getPhone();
-        }
+        final String newPhone = mStudentPhone.getText().toString();
         String newPwd = mNewPassword.getText().toString();
-        if(TextUtils.isEmpty(newPwd)) {
-            newPwd = "";
-        }else {
+        if((TextUtils.isEmpty(newPhone) || newPhone.equals(mStudent.getPhone())) && TextUtils.isEmpty(newPwd)) {
+            showToast("信息未修改");
+            mStudentPhone.setText(mStudent.getPhone());
+            return ;
+        }
+
+        if(!TextUtils.isEmpty(newPwd)) {
             isChangePwd = true;
         }
+
         AApplication.mHttpMethod.infoChange(getActivity(), new SubscriberOnNextListener<BaseEntity>() {
             @Override
             public void success(BaseEntity entity) {
                 showToast("修改成功");
+                mStudent.setPhone(newPhone);
                 if(!isChangePwd) {
                     return;
                 }
@@ -140,9 +146,5 @@ public class PersionalInfoFragment extends BaseFragment implements View.OnClickL
             }
         }, mStudent.getUserType(), mStudent.getUID(), mStudent.getSersionId(), newPhone, newPwd);
     }
-    
-    @Override
-    public void onClick(View v) {
-        changeInfo();
-    }
+
 }

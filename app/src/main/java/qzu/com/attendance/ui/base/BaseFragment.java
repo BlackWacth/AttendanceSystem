@@ -8,7 +8,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.jakewharton.rxbinding.view.RxView;
+
+import java.util.concurrent.TimeUnit;
+
 import in.srain.cube.views.ptr.PtrFrameLayout;
+import qzu.com.attendance.application.AApplication;
+import rx.functions.Action1;
 
 public abstract class BaseFragment extends Fragment {
     
@@ -91,7 +97,18 @@ public abstract class BaseFragment extends Fragment {
      */
     protected abstract void lazyLoad();
 
+    /**
+     * 是否需要下拉刷新
+     * @return
+     */
     public abstract boolean checkCanDoRefresh();
 
-    public abstract void update(PtrFrameLayout frame);
+    /**
+     * 在支持下拉刷新的情况下，数据刷新
+     * @param frame
+     */
+    public void update(PtrFrameLayout frame){
+
+    };
+
 }

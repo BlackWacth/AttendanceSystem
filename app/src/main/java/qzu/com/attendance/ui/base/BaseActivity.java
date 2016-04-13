@@ -4,9 +4,18 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.Toast;
 
+import com.jakewharton.rxbinding.view.RxView;
+
+import java.util.concurrent.TimeUnit;
+
+import qzu.com.attendance.application.AApplication;
 import qzu.com.attendance.entity.BaseEntity;
+import rx.Observer;
+import rx.functions.Action0;
+import rx.functions.Action1;
 
 
 public abstract class BaseActivity extends AppCompatActivity {
@@ -47,5 +56,5 @@ public abstract class BaseActivity extends AppCompatActivity {
     public String getResouseString(int id) {
         return getResources().getString(id);
     }
-    
+
 }

@@ -12,6 +12,9 @@ import retrofit2.http.POST;
 import retrofit2.http.Query;
 import rx.Observable;
 
+/**
+ * 登录接口
+ */
 public interface LoginApi{
     
     @GET("login.php")

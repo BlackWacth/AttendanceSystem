@@ -25,11 +25,13 @@ import qzu.com.attendance.utils.BluetoothUtils;
 import qzu.com.attendance.utils.Constants;
 import qzu.com.attendance.utils.L;
 import qzu.com.attendance.utils.Utils;
+import qzu.com.attendance.utils.ViewClick;
+import rx.functions.Action1;
 
 /**
- * 签到
+ * 学生签到
  */
-public class AttendStudentFragment extends BaseFragment implements View.OnClickListener{
+public class AttendStudentFragment extends BaseFragment{
 
     private TextView mCourseName;
     private TextView mCourseAddress;
@@ -104,7 +106,7 @@ public class AttendStudentFragment extends BaseFragment implements View.OnClickL
         tv_courseTeacherName = (TextView) view.findViewById(R.id.attend_student_course_teacher_name);
         mCoursePhone = (TextView) view.findViewById(R.id.attend_student_course_phone);
         mStudentAttend = (Button) view.findViewById(R.id.attend_student_status);
-        mStudentAttend.setOnClickListener(this);
+
         noStudent = (TextView) view.findViewById(R.id.attend_student_no_text);
         noStudent.setVisibility(View.GONE);
         mContent = (LinearLayout) view.findViewById(R.id.attend_student_content_layout);
@@ -129,6 +131,18 @@ public class AttendStudentFragment extends BaseFragment implements View.OnClickL
     @Override
     protected void initData() {
         mBluetoothServer = new BluetoothStudentService(mHandler);
+
+        ViewClick.preventShake(mStudentAttend, new Action1<Void>() {
+            @Override
+            public void call(Void aVoid) {
+                if(!BluetoothUtils.isSupportBluetooth()) {
+                    showToast("该机型不支持蓝牙");
+                    return;
+                }
+                Intent intent = new Intent(getActivity(), DevicesActivity.class);
+                getActivity().startActivityForResult(intent, Constants.REQUEST_CONNECT_DEVICE);
+            }
+        });
     }
 
     private void getCourse(boolean isRefresh, final PtrFrameLayout frame) {
@@ -218,16 +232,6 @@ public class AttendStudentFragment extends BaseFragment implements View.OnClickL
                 showProgressDialog();
             }
         }
-    }
-
-    @Override
-    public void onClick(View v) {
-        if(!BluetoothUtils.isSupportBluetooth()) {
-            showToast("该机型不支持蓝牙");
-            return;
-        }
-        Intent intent = new Intent(getActivity(), DevicesActivity.class);
-        getActivity().startActivityForResult(intent, Constants.REQUEST_CONNECT_DEVICE);
     }
 
     /**

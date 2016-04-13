@@ -1,7 +1,7 @@
 package qzu.com.attendance.entity;
 
 /**
- * Created by HUA_ZHONG_WEI on 2016/4/9.
+ * 课程
  */
 public class Course extends BaseEntity{
 

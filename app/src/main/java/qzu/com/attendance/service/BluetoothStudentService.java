@@ -10,7 +10,7 @@ import qzu.com.attendance.utils.L;
 
 
 /**
- * Created by ZHONG WEI  HUA on 2016/4/6.
+ * 学生端
  */
 public class BluetoothStudentService extends BluetoothServer{
 

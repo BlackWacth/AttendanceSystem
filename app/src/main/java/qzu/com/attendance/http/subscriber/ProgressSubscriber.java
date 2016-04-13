@@ -11,7 +11,7 @@ import qzu.com.attendance.utils.L;
 import rx.Subscriber;
 
 /**
- *
+ * 带进度条的Subscriber，统一处理了onCompleted和onError方法
  */
 public class ProgressSubscriber extends Subscriber<BaseEntity> implements ProgressCancelListener {
 
