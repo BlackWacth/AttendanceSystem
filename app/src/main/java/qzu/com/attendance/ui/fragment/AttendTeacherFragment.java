@@ -1,5 +1,6 @@
 package qzu.com.attendance.ui.fragment;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -34,6 +35,7 @@ import rx.functions.Action1;
 /**
  * 老师考勤
  */
+@SuppressLint("ValidFragment")
 public class AttendTeacherFragment extends BaseFragment{
 
     /**默认签到时间10分钟 */
@@ -172,7 +174,9 @@ public class AttendTeacherFragment extends BaseFragment{
                     return;
                 }
                 noStudent.setVisibility(View.GONE);
+                mList.clear();
                 mList.addAll(attend.getSchedule());
+                mAdapter.notifyDataSetChanged();
             }
 
             @Override

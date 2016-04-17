@@ -1,6 +1,7 @@
 package qzu.com.attendance.ui.fragment;
 
 
+import android.annotation.SuppressLint;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -23,6 +24,7 @@ import qzu.com.attendance.utils.Utils;
 /**
  * 课程表
  */
+@SuppressLint("ValidFragment")
 public class SyllabusFragment extends BaseFragment {
 
     /**课程表这里只显示到周五，共6列 */

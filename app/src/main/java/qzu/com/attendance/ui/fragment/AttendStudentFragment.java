@@ -1,5 +1,6 @@
 package qzu.com.attendance.ui.fragment;
 
+import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
 import android.os.Handler;
@@ -31,6 +32,7 @@ import rx.functions.Action1;
 /**
  * 学生签到
  */
+@SuppressLint("ValidFragment")
 public class AttendStudentFragment extends BaseFragment{
 
     private TextView mCourseName;
@@ -75,6 +77,7 @@ public class AttendStudentFragment extends BaseFragment{
                         showToast(readMsg);
                         attentEnabled(false);
                         dismissProgressDialog();
+                        mBluetoothServer.stop();
                     }
                     break;
             }

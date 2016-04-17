@@ -1,6 +1,7 @@
 package qzu.com.attendance.ui.fragment;
 
 
+import android.annotation.SuppressLint;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -23,6 +24,7 @@ import rx.functions.Action1;
 /**
  * 随机抽问
  */
+@SuppressLint("ValidFragment")
 public class AskQuestionFragment extends BaseFragment{
 
     private String userType;
@@ -123,7 +125,8 @@ public class AskQuestionFragment extends BaseFragment{
                 }else {
                     contentLayout.setVisibility(View.VISIBLE);
                     noCourse.setVisibility(View.GONE);
-                    Utils.loadImage(AskQuestionFragment.this, student.getPhoto(), mStudentIcon);
+//                    Utils.loadImage(AskQuestionFragment.this, student.getPhoto(), mStudentIcon);
+                    Utils.loadImageRx(AskQuestionFragment.this, student.getPhoto(), mStudentIcon);
                     mStudentName.setText(student.getName());
                     mStudentSex.setText(student.getSex());
                     mStudentId.setText(student.getUID());

@@ -1,6 +1,7 @@
 package qzu.com.attendance.ui.fragment;
 
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.support.design.widget.TextInputEditText;
@@ -34,6 +35,7 @@ import rx.schedulers.Schedulers;
 /**
  * 个人信息
  */
+@SuppressLint("ValidFragment")
 public class PersionalInfoFragment extends BaseFragment{
     
     private Student mStudent;

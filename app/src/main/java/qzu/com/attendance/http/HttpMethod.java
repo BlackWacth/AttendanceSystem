@@ -41,6 +41,8 @@ import rx.schedulers.Schedulers;
  */
 public class HttpMethod {
     public static final String BASE_URL = "http://ccide.iego.cn/twins/phone/";
+//    public static final String BASE_URL = "http://192.168.0.162:8090/twins/phone/";
+    
     public static final int DEFUALT_CONNECT_TIMEOUT = 30;
     public static final int DEFUALT_READ_TIMEOUT = 30;
 

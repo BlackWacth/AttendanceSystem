@@ -1,6 +1,7 @@
 package qzu.com.attendance.ui.fragment;
 
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -24,6 +25,7 @@ import qzu.com.attendance.utils.Utils;
 /**
  * 课程
  */
+@SuppressLint("ValidFragment")
 public class CourseFragment extends BaseFragment {
 
     private TextView mCourseName;
